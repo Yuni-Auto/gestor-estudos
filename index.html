@@ -1,0 +1,2885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Controle de Estudos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F6F3;
+    --surface:#FFFFFF;
+    --ink:#1F2430;
+    --ink-soft:#6B7280;
+    --ink-faint:#9AA0AC;
+    --border:#E6E5E0;
+    --border-soft:#EFEEEA;
+    --radius-lg:16px;
+    --radius-md:12px;
+    --radius-sm:8px;
+    --shadow:0 1px 2px rgba(20,20,15,0.04), 0 10px 28px -12px rgba(20,20,15,0.10);
+
+    --aws:#FF9900; --aws-soft:#FFF3E0; --aws-line:#FFD9A0;
+    --pdi:#3856D6; --pdi-soft:#EBEFFF; --pdi-line:#C3CDF7;
+    --mba:#8B5CF6; --mba-soft:#F2ECFE; --mba-line:#D8C8FB;
+    --eng:#0F9D63; --eng-soft:#E6F7EE; --eng-line:#A9E2C5;
+
+    --st-gray-bg:#EEF0F2; --st-gray-fg:#5B6270;
+    --st-blue-bg:#E8EEFF; --st-blue-fg:#3856D6;
+    --st-amber-bg:#FFF1DB; --st-amber-fg:#B2630A;
+    --st-green-bg:#E3F8EC; --st-green-fg:#127A4C;
+
+    --font-display:'Space Grotesk', system-ui, sans-serif;
+    --font-body:'Inter', system-ui, sans-serif;
+    --font-mono:'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    padding:32px 20px 80px;
+  }
+  .container{max-width:980px;margin:0 auto;}
+
+  /* ---------- Header ---------- */
+  .top{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    flex-wrap:wrap;gap:16px;margin-bottom:28px;
+  }
+  .eyebrow{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-faint);margin:0 0 6px;
+  }
+  h1{
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(28px,4vw,38px);margin:0;letter-spacing:-0.01em;
+  }
+  .week-box{
+    display:flex;align-items:center;gap:14px;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius-md);padding:10px 14px;box-shadow:var(--shadow);
+  }
+  #weekRangeLabel{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);}
+
+  /* ---------- Sincronização com GitHub ---------- */
+  .sync-status{
+    display:flex;align-items:center;gap:7px;border:1px solid var(--border);
+    background:var(--bg);border-radius:999px;padding:6px 12px 6px 10px;
+    font-family:var(--font-body);font-size:12px;color:var(--ink-soft);
+    cursor:pointer;transition:background .12s ease;
+  }
+  .sync-status:hover{background:var(--border-soft);}
+  .sync-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#c8c4bb;}
+  .sync-dot.sync-ok{background:#2dbe6c;}
+  .sync-dot.sync-syncing{background:#c8905a;animation:sync-pulse 1s ease-in-out infinite;}
+  .sync-dot.sync-warn{background:#e8a445;}
+  .sync-dot.sync-error{background:#e8445a;}
+  .sync-dot.sync-offline{background:#9a958a;}
+  @keyframes sync-pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .btn-ghost{
+    font-family:var(--font-body);font-weight:600;font-size:13px;
+    background:var(--ink);color:#fff;border:none;border-radius:999px;
+    padding:8px 16px;cursor:pointer;transition:transform .15s ease, opacity .15s ease;
+  }
+  .btn-ghost:hover{opacity:.85;}
+  .btn-ghost:active{transform:scale(.97);}
+
+  /* ---------- Budget signature bar ---------- */
+  .budget-section{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius-lg);box-shadow:var(--shadow);
+    padding:22px 24px;margin-bottom:24px;
+  }
+  .budget-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+  .budget-header .label{font-weight:600;font-size:14px;}
+  .budget-header .total{font-family:var(--font-mono);font-size:15px;color:var(--ink-soft);}
+  .budget-bar{
+    display:flex;width:100%;height:14px;border-radius:999px;overflow:hidden;
+    background:var(--border-soft);
+  }
+  .budget-seg{height:100%;transition:width .4s ease;}
+  .budget-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;}
+  .legend-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-soft);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .legend-item b{color:var(--ink);font-family:var(--font-mono);font-weight:600;}
+
+  .streak-block{margin-top:18px;padding-top:16px;border-top:1px solid var(--border-soft);}
+  .streak-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+  .streak-title{font-weight:600;font-size:13px;}
+  .streak-count{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);}
+  .streak-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+  .streak-cell{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .streak-cell-label{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em;}
+  .streak-dot{
+    width:100%;aspect-ratio:1/1;max-width:38px;border-radius:9px;border:1.5px solid var(--border);
+    background:var(--surface);display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--ink-faint);
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .streak-dot.active{background:var(--ink);border-color:transparent;color:#fff;}
+  .streak-cell.today .streak-dot{box-shadow:0 0 0 2px var(--ink-faint) inset;}
+  .streak-cell.future .streak-dot{opacity:.4;border-style:dashed;}
+
+  /* ---------- Area cards ---------- */
+  .areas-wrap{display:flex;flex-direction:column;gap:16px;margin-bottom:32px;}
+  .areas-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media (max-width:760px){.areas-row{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius-lg);box-shadow:var(--shadow);
+    padding:20px;position:relative;overflow:hidden;
+  }
+  .card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:var(--accent);
+  }
+  .card.featured{padding:24px;}
+
+  .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px;}
+  .card-title-block{display:flex;align-items:center;gap:9px;}
+  .card-emoji{font-size:18px;line-height:1;}
+  .card-title{font-family:var(--font-display);font-weight:700;font-size:16.5px;margin:0;}
+  .priority-pill{
+    display:inline-flex;align-items:center;gap:5px;
+    background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line);
+    font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:3px 9px;border-radius:999px;margin-top:6px;
+  }
+
+  select.status-select{
+    font-family:var(--font-body);font-weight:600;font-size:12px;
+    border:none;border-radius:999px;padding:5px 10px 5px 11px;cursor:pointer;
+    appearance:none;-webkit-appearance:none;
+  }
+
+  .field-row{display:flex;gap:10px;margin:12px 0;}
+  .field{flex:1;}
+  .field label{display:block;font-size:11px;color:var(--ink-faint);margin-bottom:4px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.04em;}
+  .field input[type="number"], .field input[type="date"]{
+    width:100%;font-family:var(--font-mono);font-size:14px;color:var(--ink);
+    border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:7px 9px;background:var(--bg);
+  }
+  .field input:focus, select:focus, textarea:focus, .task-input:focus{
+    outline:2px solid var(--accent);outline-offset:1px;
+  }
+  .deadline-note{font-size:11.5px;color:var(--accent);margin-top:4px;font-weight:600;}
+
+  .progress-wrap{margin:14px 0 16px;}
+  .progress-meta{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;}
+  .progress-meta b{color:var(--ink);}
+  .progress-track{height:8px;border-radius:999px;background:var(--border-soft);overflow:hidden;}
+  .progress-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .3s ease;}
+
+  .tasks-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .tasks-head span{font-size:11px;color:var(--ink-faint);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.04em;}
+  .tasks-count{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);}
+  .task-list{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .task-item{display:flex;align-items:center;gap:8px;font-size:13.5px;}
+  .task-item input[type="checkbox"]{accent-color:var(--accent);width:15px;height:15px;flex-shrink:0;cursor:pointer;}
+  .task-item span{flex:1;}
+  .task-item.done span{text-decoration:line-through;color:var(--ink-faint);}
+  .task-streak{
+    font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);
+    background:var(--accent-soft);border-radius:999px;padding:2px 7px;flex-shrink:0;
+  }
+  .daily-week-row{display:flex;gap:8px;margin:2px 0 12px;}
+  .daily-day-cell{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;
+    background:none;border:none;padding:0;cursor:pointer;font-family:inherit;
+  }
+  .daily-day-cell:disabled{cursor:not-allowed;}
+  .daily-day-label{
+    font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);
+    text-transform:uppercase;letter-spacing:.03em;
+  }
+  .daily-day-label.today{color:var(--accent);font-weight:700;}
+  .daily-day-dot{
+    width:100%;aspect-ratio:1/1;max-width:32px;border-radius:50%;border:1.5px solid var(--border);
+    background:var(--surface);display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--ink-faint);
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .daily-day-dot.full{background:var(--accent);border-color:transparent;color:#fff;}
+  .daily-day-dot.partial{border-color:var(--accent);color:var(--accent);}
+  .daily-day-dot.today:not(.full){border-width:2px;border-color:var(--accent);}
+  .daily-day-cell.future .daily-day-dot{opacity:.4;border-style:dashed;}
+  #dailyModalList .task-item{padding:4px 0;}
+  .task-del{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:14px;padding:2px 4px;line-height:1;}
+
+  .lecture-chip-grid{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px;}
+  .lecture-chip{
+    display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;
+    border:1px solid var(--border);background:var(--surface);cursor:pointer;
+    font-family:var(--font-body);font-size:12.5px;color:var(--ink);text-align:left;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .lecture-chip:hover{border-color:var(--accent);}
+  .lecture-chip-check{
+    width:14px;height:14px;border-radius:50%;border:1.5px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;flex-shrink:0;
+  }
+  .lecture-chip.done{background:var(--accent-soft);border-color:var(--accent-line);}
+  .lecture-chip.done .lecture-chip-check{background:var(--accent);border-color:transparent;color:#fff;}
+  .lecture-chip.done .lecture-chip-text{color:var(--ink-faint);text-decoration:line-through;}
+  .task-del:hover{color:#C0392B;}
+  .task-add{display:flex;gap:6px;flex-wrap:wrap;}
+  .task-input{
+    flex:1;min-width:0;font-family:var(--font-body);font-size:13px;border:1px solid var(--border);
+    border-radius:var(--radius-sm);padding:7px 9px;background:var(--bg);
+  }
+  .task-group-input{
+    width:130px;flex-shrink:0;font-family:var(--font-body);font-size:12px;color:var(--ink-soft);
+    border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 9px;background:var(--bg);
+  }
+  .task-add-btn{
+    background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);
+    width:32px;font-size:16px;cursor:pointer;font-weight:600;flex-shrink:0;
+  }
+  .task-group-details{margin:10px 0 0;}
+  .task-group-details:first-of-type{margin-top:0;}
+  .task-group-summary{
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+    font-family:var(--font-mono);font-size:10.5px;color:var(--accent);
+    text-transform:uppercase;letter-spacing:.05em;font-weight:600;
+    cursor:pointer;list-style:none;padding:6px 0;
+    border-top:1px solid var(--border-soft);
+    user-select:none;
+  }
+  .task-group-details:first-of-type .task-group-summary{border-top:none;padding-top:0;}
+  .task-group-summary::-webkit-details-marker{display:none;}
+  .task-group-summary-left{display:flex;align-items:center;gap:6px;}
+  .task-group-chevron{
+    font-size:10px;color:var(--ink-faint);transition:transform .2s ease;display:inline-block;
+  }
+  .task-group-details[open] .task-group-chevron{transform:rotate(90deg);}
+  .task-group-details .task-group-count{
+    color:var(--ink-faint);text-transform:none;letter-spacing:0;font-weight:500;font-size:11px;
+  }
+  .task-group-details .task-list{margin-top:4px;padding-bottom:4px;}
+
+  details.notes{margin-top:14px;}
+  details.notes summary{
+    font-size:11px;color:var(--ink-faint);cursor:pointer;font-family:var(--font-mono);
+    text-transform:uppercase;letter-spacing:.04em;list-style:none;
+  }
+  details.notes summary::-webkit-details-marker{display:none;}
+  details.notes summary::before{content:'▸ ';}
+  details.notes[open] summary::before{content:'▾ ';}
+  details.notes textarea{
+    width:100%;margin-top:8px;font-family:var(--font-body);font-size:13px;
+    border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 9px;
+    background:var(--bg);resize:vertical;min-height:52px;color:var(--ink);
+  }
+
+  .section-heading{font-family:var(--font-display);font-weight:700;font-size:18px;margin:0 0 4px;}
+  .section-sub{font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;}
+
+  /* ---------- Focus chart ---------- */
+  .history-section{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+    box-shadow:var(--shadow);padding:22px 24px;
+  }
+  .focus-chart{display:flex;gap:16px;margin-top:16px;}
+  .focus-chart-y{
+    display:flex;flex-direction:column;justify-content:space-between;
+    font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);
+    text-align:right;padding-bottom:2px;flex-shrink:0;min-width:36px;
+  }
+  .focus-chart-body{flex:1;display:flex;flex-direction:column;gap:0;}
+  .focus-chart-grid{position:relative;flex:1;}
+  .focus-chart-gridlines{
+    position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;
+    pointer-events:none;
+  }
+  .focus-chart-gridline{width:100%;border-top:1px dashed var(--border-soft);}
+  .focus-chart-bars{
+    position:relative;height:160px;display:flex;align-items:flex-end;gap:5px;
+  }
+  .focus-bar-col{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:0;height:100%;justify-content:flex-end;}
+  .focus-bar-fill{
+    width:100%;border-radius:4px 4px 0 0;background:var(--border);
+    transition:height .35s ease;min-height:2px;
+  }
+  .focus-bar-fill.has-data{background:var(--ink);opacity:.7;}
+  .focus-bar-fill.has-data.manual-bar{background:var(--ink-faint);opacity:.45;}
+  .focus-bar-fill.today{background:var(--pdi);opacity:1;}
+  .focus-bar-fill.today.manual-bar{background:var(--pdi);opacity:.45;}
+  .focus-chart-x{display:flex;gap:5px;margin-top:6px;}
+  .focus-x-label{
+    flex:1;min-width:0;text-align:center;
+    font-family:var(--font-mono);font-size:9.5px;color:var(--ink-faint);line-height:1.4;
+  }
+  .focus-x-label.today{color:var(--pdi);font-weight:700;}
+  .focus-chart-empty{font-size:13px;color:var(--ink-faint);font-style:italic;margin-top:12px;}
+
+  /* ---------- Pomodoro ---------- */
+  .pomo-row{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;
+  }
+  @media(max-width:900px){.pomo-row{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.pomo-row{grid-template-columns:1fr;}}
+
+  .pomo-section{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+    box-shadow:var(--shadow);padding:20px 22px;
+    position:relative;overflow:hidden;
+  }
+  .pomo-section::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:var(--accent, var(--ink));transition:background .25s ease;
+  }
+
+  /* Info card */
+  .pomo-info-card{display:flex;flex-direction:column;justify-content:space-between;}
+  .pomo-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .pomo-top-left .label{font-weight:600;font-size:14px;}
+  .pomo-total-time{font-family:var(--font-mono);font-size:clamp(28px,4vw,36px);font-weight:700;color:var(--ink);margin-top:8px;letter-spacing:-0.02em;line-height:1;}
+  .pomo-breakdown{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);margin-top:8px;display:flex;flex-direction:column;gap:3px;}
+  .pomo-today-wrap{margin-top:14px;}
+  .pomo-today{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);}
+
+  .pomo-menu-btn{
+    background:var(--border-soft);border:none;border-radius:999px;width:28px;height:28px;
+    font-size:16px;line-height:1;color:var(--ink-soft);cursor:pointer;flex-shrink:0;
+    transition:background .15s ease, color .15s ease;
+  }
+  .pomo-menu-btn:hover{background:var(--accent-soft, var(--border)); color:var(--accent, var(--ink));}
+
+  /* Timer card */
+  .pomo-timer-card{}
+  .pomo-right{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .pomo-phase{
+    font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 11px;border-radius:999px;background:var(--accent-soft, var(--border-soft));color:var(--accent, var(--ink-soft));
+    margin-bottom:8px;transition:background .25s ease, color .25s ease;
+  }
+  .pomo-timer{
+    font-family:var(--font-mono);font-weight:700;font-size:clamp(36px,6vw,52px);
+    color:var(--ink);letter-spacing:-0.01em;line-height:1;margin-bottom:4px;
+  }
+  .pomo-section.is-running .pomo-timer{color:var(--accent, var(--ink));}
+  .pomo-cycle{font-size:12px;color:var(--ink-soft);margin-bottom:14px;}
+  .pomo-controls{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+  .pomo-btn{
+    font-family:var(--font-body);font-weight:600;font-size:12.5px;border:none;border-radius:999px;
+    padding:8px 14px;cursor:pointer;transition:transform .15s ease, opacity .15s ease;
+  }
+  .pomo-btn:active{transform:scale(.97);}
+  .pomo-btn.primary{background:var(--accent, var(--ink));color:#fff;}
+  .pomo-btn.secondary{background:var(--border-soft);color:var(--ink-soft);}
+  .pomo-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+  .pomo-area-select{
+    width:100%;font-family:var(--font-body);font-weight:600;font-size:14px;color:var(--ink);
+    border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 10px;background:var(--bg);
+    cursor:pointer;appearance:none;-webkit-appearance:none;
+  }
+  .pomo-settings{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+  .pomo-settings input:disabled, .pomo-area-select:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* ---------- Modal de configurações do Pomodoro ---------- */
+  .pomo-modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(20,20,15,0.45);
+    align-items:center;justify-content:center;padding:20px;z-index:1000;
+  }
+  .pomo-modal-overlay.open{display:flex;}
+  .pomo-modal{
+    background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow);
+    width:100%;max-width:380px;padding:22px 24px;max-height:90vh;overflow-y:auto;
+  }
+  .pomo-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .pomo-modal-head h3{font-family:var(--font-display);font-weight:700;font-size:16px;margin:0;}
+  .pomo-modal-close{
+    background:none;border:none;font-size:15px;color:var(--ink-faint);cursor:pointer;
+    padding:2px 6px;line-height:1;
+  }
+  .pomo-modal-close:hover{color:var(--ink);}
+  .pomo-modal-foot{display:flex;justify-content:flex-end;margin-top:18px;}
+
+  /* ---------- Modal de configurações do card ---------- */
+  .card-modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(20,20,15,0.45);
+    align-items:center;justify-content:center;padding:20px;z-index:1000;
+  }
+  .card-modal-overlay.open{display:flex;}
+  .card-modal{
+    background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow);
+    width:100%;max-width:360px;padding:22px 24px;
+  }
+  .card-modal-head{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+  }
+  .card-modal-head h3{font-family:var(--font-display);font-weight:700;font-size:16px;margin:0;}
+  .card-modal-close{
+    background:none;border:none;font-size:15px;color:var(--ink-faint);cursor:pointer;
+    padding:2px 6px;line-height:1;border-radius:var(--radius-sm);
+  }
+  .card-modal-close:hover{color:var(--ink);}
+  .card-modal-foot{display:flex;justify-content:flex-end;margin-top:20px;}
+  .card-modal-divider{border:none;border-top:1px solid var(--border-soft);margin:16px 0;}
+
+  /* Painel inline de registro de horas */
+  .history-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0;}
+  .hours-inline-panel{
+    margin-top:20px;padding-top:18px;border-top:1px solid var(--border-soft);
+  }
+  .hours-inline-head{margin-bottom:12px;}
+  .hours-inline-title{font-weight:600;font-size:13.5px;color:var(--ink);}
+  .hours-inline-form{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;}
+  .hours-inline-entries{margin-top:14px;display:flex;flex-direction:column;gap:6px;}
+  .hours-entries-area{margin-bottom:6px;}
+  .hours-entries-area-label{
+    font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px;
+  }
+  .hours-entries-list{display:flex;flex-wrap:wrap;gap:6px;}
+  .hours-entry-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--bg);border:1px solid var(--border);border-radius:999px;
+    padding:4px 10px 4px 12px;font-size:12.5px;
+  }
+  .hours-entry-chip .chip-date{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);}
+  .hours-entry-chip .chip-hours{font-family:var(--font-mono);font-weight:700;color:var(--ink);}
+  .hours-entry-chip .chip-del{
+    background:none;border:none;color:var(--ink-faint);cursor:pointer;
+    font-size:12px;padding:0 2px;line-height:1;
+  }
+  .hours-entry-chip .chip-del:hover{color:#C0392B;}
+  .hours-inline-empty{font-size:12.5px;color:var(--ink-faint);font-style:italic;}
+  .priority-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 0;}
+  .priority-toggle-label{font-size:13.5px;font-weight:500;color:var(--ink);}
+  .priority-toggle-btn{
+    position:relative;width:44px;height:24px;border-radius:999px;border:none;cursor:pointer;
+    background:var(--border);transition:background .2s ease;flex-shrink:0;padding:0;
+  }
+  .priority-toggle-btn::after{
+    content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;
+    border-radius:50%;background:#fff;transition:transform .2s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,.2);
+  }
+  .priority-toggle-btn[aria-pressed="true"]{background:var(--accent);}
+  .priority-toggle-btn[aria-pressed="true"]::after{transform:translateX(20px);}
+
+  /* Log de horas compacto no modal de horas */
+  .hours-log-list{max-height:180px;}
+  .hours-log-empty{display:block;}
+  .hours-log{margin-top:12px;}
+  .hours-log-list{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:5px;max-height:140px;overflow-y:auto;}
+  .hours-log-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);background:var(--bg);border-radius:var(--radius-sm);padding:5px 8px;}
+  .hours-log-item .log-date{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);min-width:52px;}
+  .hours-log-item .log-hours{font-family:var(--font-mono);font-weight:700;color:var(--ink);min-width:36px;}
+  .hours-log-del{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:13px;padding:1px 4px;line-height:1;margin-left:auto;}
+  .hours-log-del:hover{color:#C0392B;}
+  .hours-log-empty{font-size:12px;color:var(--ink-faint);font-style:italic;margin-top:6px;}
+  .log-add-row{display:flex;gap:6px;margin-top:10px;align-items:flex-end;}
+  .log-add-row .field{margin:0;}
+  .log-add-btn{
+    background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);
+    padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;
+  }
+  .log-add-btn:hover{opacity:.85;}
+
+  .card-menu-btn{
+    background:none;border:none;color:var(--ink-faint);cursor:pointer;
+    font-size:18px;line-height:1;padding:2px 6px;border-radius:var(--radius-sm);
+    transition:background .15s, color .15s;
+  }
+  .card-menu-btn:hover{background:var(--border-soft);color:var(--ink);}
+
+  /* ---------- Temas estudados esta semana ---------- */
+  .pomo-topics-wrap{margin-top:12px;}
+  .pomo-topics-title{font-size:11px;color:var(--ink-faint);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;display:flex;justify-content:space-between;align-items:baseline;}
+  .pomo-topics-empty{font-size:12.5px;color:var(--ink-faint);font-style:italic;}
+  .pomo-topic-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;}
+  .pomo-topic-item{
+    display:flex;align-items:center;gap:8px;font-size:12.5px;
+    padding:5px 8px;border-radius:var(--radius-sm);background:var(--accent-soft,var(--border-soft));
+    border:1px solid var(--accent-line,var(--border));
+  }
+  .pomo-topic-dot{width:7px;height:7px;border-radius:50%;background:var(--accent,var(--ink));flex-shrink:0;}
+  .pomo-topic-name{flex:1;font-weight:500;color:var(--ink);}
+  .pomo-topic-meta{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);white-space:nowrap;}
+
+  /* ---------- Quadro de objetivos do dia ---------- */
+  .goals-card{display:flex;flex-direction:column;}
+  .goals-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px;}
+  .goals-head .label{font-weight:600;font-size:14px;}
+  .goals-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;}
+  .goal-item{display:flex;flex-direction:column;gap:5px;}
+  .goal-item-top{display:flex;align-items:center;gap:7px;}
+  .goal-dot{width:8px;height:8px;border-radius:50%;background:var(--goal-accent,var(--ink));flex-shrink:0;}
+  .goal-label{flex:1;font-size:13px;font-weight:500;color:var(--ink);}
+  .goal-label.done{color:var(--ink-faint);}
+  .goal-check{font-size:12px;color:var(--goal-accent,var(--ink));flex-shrink:0;}
+  .goal-meta{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);white-space:nowrap;flex-shrink:0;}
+  .goal-bar{height:6px;border-radius:999px;background:var(--border-soft);overflow:hidden;}
+  .goal-bar-fill{height:100%;border-radius:999px;background:var(--goal-accent,var(--ink));transition:width .3s ease;}
+  .goals-empty{font-size:12.5px;color:var(--ink-faint);font-style:italic;}
+  #goalsModalList{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;}
+  .goal-edit-row{display:flex;gap:6px;align-items:center;}
+  .goal-edit-row select{
+    font-family:var(--font-body);font-size:12.5px;border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:7px 6px;background:var(--bg);color:var(--ink);flex:1.3;min-width:0;
+  }
+  .goal-edit-row input[type="text"]{
+    font-family:var(--font-body);font-size:12.5px;border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:7px 8px;background:var(--bg);color:var(--ink);flex:2;min-width:0;
+  }
+  .goal-edit-row input[type="number"]{
+    font-family:var(--font-mono);font-size:12.5px;border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:7px 6px;background:var(--bg);color:var(--ink);width:56px;flex-shrink:0;
+  }
+  .goal-edit-del{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:14px;padding:2px 4px;flex-shrink:0;}
+  .goal-edit-del:hover{color:#C0392B;}
+  .goal-add-btn{
+    font-family:var(--font-body);font-weight:600;font-size:12.5px;background:var(--border-soft);color:var(--ink-soft);
+    border:none;border-radius:var(--radius-sm);padding:8px 12px;cursor:pointer;width:100%;
+  }
+  .goal-add-btn:hover{background:var(--border);}
+
+  /* ---------- Histórico em chips abaixo do gráfico ---------- */
+  .hist-list{display:flex;flex-direction:column;gap:0;margin-top:20px;}
+  .hist-day{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-soft);flex-wrap:wrap;}
+  .hist-day:last-child{border-bottom:none;}
+  .hist-day--today .hist-day__date{color:var(--pdi);font-weight:700;}
+  .hist-day__date{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);white-space:nowrap;min-width:110px;}
+  .hist-day__name{font-size:10px;color:var(--ink-faint);}
+  .hist-day__total{font-family:var(--font-mono);font-size:12.5px;font-weight:700;color:var(--ink);margin-left:auto;white-space:nowrap;}
+  .hist-day__chips{display:flex;flex-wrap:wrap;gap:6px;}
+
+  .hist-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    border-radius:999px;padding:5px 12px 5px 8px;
+    border:1.5px solid color-mix(in srgb, var(--chip-accent) 30%, transparent);
+    background:color-mix(in srgb, var(--chip-accent) 8%, var(--surface));
+    font-size:12.5px;
+  }
+  .hist-chip__dot{font-size:13px;line-height:1;flex-shrink:0;}
+  .hist-chip__area{font-weight:600;color:var(--ink);}
+  .hist-chip__hrs{
+    font-family:var(--font-mono);font-size:11.5px;font-weight:700;
+    color:var(--chip-accent);
+    padding-left:4px;border-left:1.5px solid color-mix(in srgb, var(--chip-accent) 25%, transparent);
+    margin-left:2px;
+  }
+  .hist-chip__del{
+    background:none;border:none;cursor:pointer;color:var(--ink-faint);
+    font-size:11px;padding:0 0 0 4px;line-height:1;margin-left:2px;
+  }
+  .hist-chip__del:hover{color:#C0392B;}
+  .focus-history-empty{font-size:12.5px;color:var(--ink-faint);font-style:italic;margin-top:12px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+
+  /* Color picker da nova área */
+  .color-opt{cursor:pointer;display:flex;}
+  .color-opt input{display:none;}
+  .color-opt span{
+    display:block;width:26px;height:26px;border-radius:50%;
+    border:2px solid transparent;transition:transform .15s,border-color .15s;
+  }
+  .color-opt input:checked + span{border-color:var(--ink);transform:scale(1.15);}
+  .color-opt:hover span{transform:scale(1.1);}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">painel de controle · semana atual</p>
+      <h1>Estudos</h1>
+    </div>
+    <div class="week-box">
+      <button class="sync-status" id="sync-status-btn" onclick="openSyncModal()">
+        <span class="sync-dot sync-syncing" id="sync-dot"></span>
+        <span id="sync-label">Carregando…</span>
+      </button>
+      <span id="weekRangeLabel">—</span>
+      <button class="btn-ghost" id="newAreaBtn">＋ Nova área</button>
+    </div>
+  </header>
+
+  <div class="pomo-row">
+    <!-- Card 1: Info -->
+    <section class="pomo-section pomo-info-card" id="pomoSection">
+      <div class="pomo-top">
+        <div class="pomo-top-left">
+          <span class="label">Pomodoro</span>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:10px;">Tempo total de foco</div>
+          <div class="pomo-total-time" id="pomoTotalTimeLabel">1h40</div>
+          <div class="pomo-breakdown" id="pomoBreakdownLabel"></div>
+        </div>
+        <button class="pomo-menu-btn" id="pomoMenuBtn" aria-label="Configurações do Pomodoro" title="Configurações">⋮</button>
+      </div>
+    </section>
+
+    <!-- Card 2: Timer -->
+    <section class="pomo-section pomo-timer-card" id="pomoTimerCard">
+      <div class="pomo-right">
+        <div class="pomo-phase" id="pomoPhaseLabel">Pronto</div>
+        <div class="pomo-timer" id="pomoTimerDisplay">25:00</div>
+        <div class="pomo-cycle" id="pomoCycleLabel">Pomodoro 1 de 4</div>
+        <div class="pomo-controls">
+          <button class="pomo-btn primary" id="pomoToggleBtn">Iniciar</button>
+          <button class="pomo-btn secondary" id="pomoResetBtn">Reiniciar</button>
+          <button class="pomo-btn secondary" id="pomoFinishBtn">Concluir</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card 3: Objetivos do dia -->
+    <section class="pomo-section goals-card" id="goalsCard">
+      <div class="goals-head">
+        <span class="label">Objetivos de hoje</span>
+        <button class="pomo-menu-btn" id="goalsMenuBtn" aria-label="Editar objetivos" title="Editar objetivos">⋮</button>
+      </div>
+      <ul class="goals-list" id="goalsList"></ul>
+    </section>
+  </div>
+
+  <div class="pomo-modal-overlay" id="goalsModalOverlay">
+    <div class="pomo-modal" role="dialog" aria-modal="true" aria-label="Editar objetivos do dia">
+      <div class="pomo-modal-head">
+        <h3>Objetivos de hoje</h3>
+        <button class="pomo-modal-close" id="goalsModalCloseBtn" aria-label="Fechar">✕</button>
+      </div>
+      <div class="pomo-modal-body">
+        <div id="goalsModalList"></div>
+        <button class="goal-add-btn" id="goalsModalAddBtn">＋ Adicionar objetivo</button>
+      </div>
+      <div class="pomo-modal-foot">
+        <button class="pomo-btn primary" id="goalsModalDoneBtn">Concluir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pomo-modal-overlay" id="pomoModalOverlay">
+    <div class="pomo-modal" role="dialog" aria-modal="true" aria-label="Configurações do Pomodoro">
+      <div class="pomo-modal-head">
+        <h3>Configurações do Pomodoro</h3>
+        <button class="pomo-modal-close" id="pomoModalCloseBtn" aria-label="Fechar">✕</button>
+      </div>
+      <div class="pomo-modal-body">
+        <div class="field"><label>Tema (frente de foco)</label>
+          <select class="pomo-area-select" id="pomoAreaSelect"></select>
+        </div>
+        <div class="pomo-settings">
+          <div class="field"><label>Foco (min)</label><input type="number" min="1" max="120" id="pomoWorkMin"></div>
+          <div class="field"><label>Pausa (min)</label><input type="number" min="1" max="60" id="pomoBreakMin"></div>
+          <div class="field"><label>Pausa longa (min)</label><input type="number" min="1" max="60" id="pomoLongBreakMin"></div>
+          <div class="field"><label>Ciclos p/ pausa longa</label><input type="number" min="1" max="12" id="pomoCyclesLong"></div>
+        </div>
+      </div>
+      <div class="pomo-modal-foot">
+        <button class="pomo-btn primary" id="pomoModalDoneBtn">Concluir</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="budget-section">
+    <div class="budget-header">
+      <span class="label">Orçamento semanal</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn-ghost" id="openHoursModalBtn" style="font-size:12px;padding:6px 14px;">＋ Registrar horas</button>
+        <span class="total" id="budgetTotalLabel">0h</span>
+      </div>
+    </div>
+    <div class="budget-bar" id="budgetBar"></div>
+    <div class="budget-legend" id="budgetLegend"></div>
+
+    <div class="streak-block">
+      <div class="streak-head">
+        <span class="streak-title">Sequência de foco</span>
+        <span class="streak-count" id="streakCountLabel">🔥 0 dias</span>
+      </div>
+      <div class="streak-grid" id="streakGrid"></div>
+    </div>
+  </section>
+
+  <div class="areas-wrap">
+    <div id="areaAwsSlot"></div>
+    <div class="areas-row" id="areasRowSlot"></div>
+  </div>
+
+  <section class="history-section">
+    <h2 class="section-heading">Histórico de foco</h2>
+    <p class="section-sub">Pomodoro + horas manuais por dia.</p>
+    <div id="focusChartWrap"></div>
+  </section>
+
+</div>
+
+<!-- Modal de configurações do card -->
+<div class="card-modal-overlay" id="cardModalOverlay" role="dialog" aria-modal="true">
+  <div class="card-modal" id="cardModalBox">
+    <div class="card-modal-head">
+      <h3 id="cardModalTitle">Configurações</h3>
+      <button class="card-modal-close" id="cardModalCloseBtn" aria-label="Fechar">✕</button>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Meta semanal</label>
+        <input type="number" step="0.5" min="0" id="cardModalTarget">
+      </div>
+      <div class="field">
+        <label>Prazo (opcional)</label>
+        <input type="date" id="cardModalDeadline">
+      </div>
+    </div>
+    <div id="cardModalDeadlineNote"></div>
+    <hr class="card-modal-divider">
+    <div class="priority-toggle-row">
+      <span class="priority-toggle-label">Prioridade da semana</span>
+      <button class="priority-toggle-btn" id="cardModalPriorityBtn" aria-pressed="false" type="button"></button>
+    </div>
+    <div class="card-modal-foot">
+      <button class="btn-ghost" id="cardModalDoneBtn">Concluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de registro de horas -->
+<div class="card-modal-overlay" id="hoursModalOverlay" role="dialog" aria-modal="true">
+  <div class="card-modal" id="hoursModalBox">
+    <div class="card-modal-head">
+      <h3>Registrar horas</h3>
+      <button class="card-modal-close" id="hoursModalCloseBtn" aria-label="Fechar">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:12px;">
+      <label>Área</label>
+      <select id="hoursModalAreaSelect" style="width:100%;font-family:var(--font-body);font-size:14px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 9px;background:var(--bg);"></select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Data</label>
+        <input type="date" id="hoursModalDate" style="width:100%;">
+      </div>
+      <div class="field">
+        <label>Horas</label>
+        <input type="number" step="0.25" min="0.25" id="hoursModalHours" style="width:100%;" placeholder="0,5">
+      </div>
+    </div>
+    <div class="card-modal-foot" style="justify-content:space-between;">
+      <button class="log-add-btn" id="hoursModalAddBtn">＋ Adicionar</button>
+      <button class="btn-ghost" id="hoursModalDoneBtn">Concluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de nova área -->
+<div class="card-modal-overlay" id="newAreaModalOverlay" role="dialog" aria-modal="true">
+  <div class="card-modal" id="newAreaModalBox" style="max-width:400px;">
+    <div class="card-modal-head">
+      <h3>Nova área de estudo</h3>
+      <button class="card-modal-close" id="newAreaModalCloseBtn" aria-label="Fechar">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:14px;">
+      <label>Nome</label>
+      <input type="text" id="newAreaName" placeholder="Ex: Python, Espanhol…" style="width:100%;font-family:var(--font-body);font-size:14px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;background:var(--bg);">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Emoji</label>
+        <input type="text" id="newAreaEmoji" placeholder="📚" maxlength="2" style="width:100%;font-family:var(--font-body);font-size:20px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 10px;background:var(--bg);text-align:center;">
+      </div>
+      <div class="field">
+        <label>Meta semanal (h)</label>
+        <input type="number" id="newAreaTarget" min="0" step="0.5" placeholder="2" style="width:100%;font-family:var(--font-mono);font-size:14px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;background:var(--bg);">
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px;">
+      <label>Cor</label>
+      <div id="newAreaColorPicker" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+        <label class="color-opt"><input type="radio" name="newAreaColor" value="aws" checked><span style="background:var(--aws)"></span></label>
+        <label class="color-opt"><input type="radio" name="newAreaColor" value="pdi"><span style="background:var(--pdi)"></span></label>
+        <label class="color-opt"><input type="radio" name="newAreaColor" value="mba"><span style="background:var(--mba)"></span></label>
+        <label class="color-opt"><input type="radio" name="newAreaColor" value="eng"><span style="background:var(--eng)"></span></label>
+      </div>
+    </div>
+    <p id="newAreaError" style="color:#C0392B;font-size:12px;margin:10px 0 0;display:none;">Preencha ao menos o nome da área.</p>
+    <div class="card-modal-foot">
+      <button class="btn-ghost" id="newAreaSaveBtn">Criar área</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de rotina diária: marcar o que foi feito em um dia específico -->
+<div class="card-modal-overlay" id="dailyModalOverlay" role="dialog" aria-modal="true">
+  <div class="card-modal" id="dailyModalBox">
+    <div class="card-modal-head">
+      <h3 id="dailyModalTitle">Rotina diária</h3>
+      <button class="card-modal-close" id="dailyModalCloseBtn" aria-label="Fechar">✕</button>
+    </div>
+    <ul class="task-list" id="dailyModalList"></ul>
+    <div class="card-modal-foot">
+      <button class="btn-ghost" id="dailyModalDoneBtn">Concluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de sincronização com GitHub + backup local -->
+<div class="card-modal-overlay" id="syncModalOverlay" role="dialog" aria-modal="true">
+  <div class="card-modal" id="syncModalBox" style="max-width:420px;">
+    <div class="card-modal-head">
+      <h3>☁️ Sincronização com GitHub</h3>
+      <button class="card-modal-close" id="syncModalCloseBtn" aria-label="Fechar">✕</button>
+    </div>
+
+    <div class="field" style="margin-bottom:14px;">
+      <label>Repositório</label>
+      <div style="font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;" id="sync-repo-label">—</div>
+    </div>
+
+    <div class="field" style="margin-bottom:14px;">
+      <label>Personal Access Token</label>
+      <input type="password" id="sync-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" style="width:100%;font-family:var(--font-body);font-size:13px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;background:var(--bg);">
+      <p style="font-size:11px;color:var(--ink-faint);margin:8px 0 0;line-height:1.5;">
+        Sem token, os dados só são lidos (funciona em qualquer aparelho). Com token, este aparelho também consegue salvar mudanças na nuvem. O token fica guardado apenas no navegador deste aparelho — cole-o de novo em cada um.<br><br>
+        Pra criar: GitHub → Settings → Developer settings → Personal access tokens → Fine-grained token → dê acesso de leitura/escrita (Contents) só ao repositório <strong id="sync-repo-label2">gestor-estudos</strong>.
+      </p>
+    </div>
+
+    <div class="field" style="margin-bottom:0;">
+      <label>Status</label>
+      <div style="font-size:12.5px;color:var(--ink-soft);" id="sync-modal-status">—</div>
+    </div>
+
+    <hr class="card-modal-divider">
+
+    <div class="field" style="margin-bottom:0;">
+      <label>Backup manual</label>
+      <p style="font-size:11px;color:var(--ink-faint);margin:4px 0 10px;line-height:1.5;">
+        Baixe um arquivo .json com todos os dados do painel como cópia de segurança, independente da sincronização com a nuvem.
+      </p>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-ghost" style="flex:1;background:var(--surface);color:var(--ink);border:1px solid var(--border);" onclick="exportLocalBackup()">⬇️ Exportar backup</button>
+        <button class="btn-ghost" style="flex:1;background:var(--surface);color:var(--ink);border:1px solid var(--border);" onclick="document.getElementById('backup-file-input').click()">⬆️ Importar backup</button>
+      </div>
+      <input type="file" id="backup-file-input" accept="application/json" style="display:none;" onchange="importLocalBackup(event)">
+    </div>
+
+    <div class="card-modal-foot" style="justify-content:space-between;">
+      <button class="btn-ghost" style="background:var(--surface);color:var(--ink);border:1px solid var(--border);" onclick="clearGhTokenFromModal()">Remover token</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-ghost" style="background:var(--surface);color:var(--ink);border:1px solid var(--border);" onclick="manualSyncNow()">Sincronizar agora</button>
+        <button class="btn-ghost" id="syncModalSaveBtn">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'estudosControlePanelV2';
+
+  const STATUS = {
+    nao_iniciado: {label:'Não iniciado', bg:'var(--st-gray-bg)', fg:'var(--st-gray-fg)'},
+    andamento:    {label:'Em andamento', bg:'var(--st-blue-bg)', fg:'var(--st-blue-fg)'},
+    pausado:      {label:'Pausado', bg:'var(--st-amber-bg)', fg:'var(--st-amber-fg)'},
+    concluido:    {label:'Concluído', bg:'var(--st-green-bg)', fg:'var(--st-green-fg)'}
+  };
+
+  function uid(){ return Math.random().toString(36).slice(2,9); }
+  function todayISO(){ const d=new Date(); d.setHours(0,0,0,0); return d.toISOString().slice(0,10); }
+  function addDays(iso, n){ const d=new Date(iso+'T00:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+  function fmtDM(iso){ const d=new Date(iso+'T00:00:00'); return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}); }
+  function fmtHours(n){ return (Math.round(n*10)/10).toString().replace('.', ',') + 'h'; }
+
+  // Itens da trilha "Rotina diária" são marcados por dia (como um hábito),
+  // em vez de um "concluído" único e permanente como as demais trilhas.
+  const DAILY_GROUP = 'Rotina diária';
+  function isDailyTask(t){ return t.group === DAILY_GROUP; }
+  function taskDoneToday(t){
+    if(isDailyTask(t)) return !!(t.doneDates && t.doneDates.includes(todayISO()));
+    return !!t.done;
+  }
+  function taskStreak(t){
+    if(!isDailyTask(t)) return 0;
+    const dates = t.doneDates || [];
+    let streak = 0;
+    let cursor = todayISO();
+    if(!dates.includes(cursor)) cursor = addDays(cursor, -1);
+    while(dates.includes(cursor)){ streak++; cursor = addDays(cursor, -1); }
+    return streak;
+  }
+  function migrateDailyTasks(parsedState){
+    if(!parsedState.areas) return;
+    Object.values(parsedState.areas).forEach(a=>{
+      if(!a.tasks) return;
+      a.tasks.forEach(t=>{ if(isDailyTask(t) && !t.doneDates) t.doneDates = []; });
+    });
+  }
+
+  // Extrai os minutos de um item da rotina diária a partir do texto (ex.: "5 min • Duolingo")
+  function parseMinutesFromText(text){
+    const m = /(\d+)\s*min/i.exec(text || '');
+    return m ? parseInt(m[1], 10) : 0;
+  }
+  function taskMinutes(t){
+    return (typeof t.minutes === 'number' && t.minutes > 0) ? t.minutes : parseMinutesFromText(t.text);
+  }
+
+  // Registra/remove minutos de uma tarefa da rotina diária como horas "manuais"
+  // da própria área (ex.: Inglês), pra aparecer no histórico com o rótulo da área
+  // e contar como barra "Manual" no gráfico (em vez de Pomodoro).
+  function registerFocusMinutes(areaKey, dateISO, minutes){
+    if(!minutes || minutes <= 0) return;
+    const a = state.areas[areaKey];
+    if(!a) return;
+    if(!a.loggedDays) a.loggedDays = [];
+    const hours = minutes / 60;
+    const existing = a.loggedDays.find(e=>e.date === dateISO);
+    if(existing){
+      existing.hours = Math.round((existing.hours + hours)*1000)/1000;
+    } else {
+      a.loggedDays.push({id:uid(), date:dateISO, hours:Math.round(hours*1000)/1000});
+    }
+    a.logged = a.loggedDays.reduce((s,e)=>s+e.hours, 0);
+  }
+  function unregisterFocusMinutes(areaKey, dateISO, minutes){
+    if(!minutes || minutes <= 0) return;
+    const a = state.areas[areaKey];
+    if(!a || !a.loggedDays) return;
+    const existing = a.loggedDays.find(e=>e.date === dateISO);
+    if(!existing) return;
+    existing.hours = Math.max(0, Math.round((existing.hours - minutes/60)*1000)/1000);
+    if(existing.hours <= 0.001){
+      a.loggedDays = a.loggedDays.filter(e=>e.date !== dateISO);
+    }
+    a.logged = a.loggedDays.reduce((s,e)=>s+e.hours, 0);
+  }
+
+  const AWS_CURRICULA = {
+    'Generative AI Foundations': [
+      'Módulo 1: Boas-vindas ao curso',
+      'Módulo 2: Introdução à IA',
+      'Módulo 3: Introdução à IA generativa',
+      'Módulo 4: Uso de prompts e engenharia de prompts',
+      'Módulo 5: Uso de modelos de base',
+      'Módulo 6: Prática responsável de IA generativa',
+      'Módulo 7: Segurança, governança e conformidade',
+      'Módulo 8: Implementação de aplicações de IA generativa',
+      'Módulo 9: Avaliação de conclusão e certificado'
+    ],
+    'Cloud Foundations': [
+      'Módulo 1: Visão geral dos conceitos de nuvem',
+      'Módulo 2: Economia e faturamento da nuvem',
+      'Módulo 3: Infraestrutura global da AWS',
+      'Módulo 4: Segurança na nuvem AWS',
+      'Módulo 5: Redes e entrega de conteúdo',
+      'Módulo 6: Computação',
+      'Módulo 7: Armazenamento',
+      'Módulo 8: Bancos de dados',
+      'Módulo 9: Arquitetura de nuvem',
+      'Módulo 10: Auto Scaling e monitoramento',
+      'Avaliação final do curso e certificado'
+    ]
+  };
+
+  function curriculumTasks(groupName){
+    return (AWS_CURRICULA[groupName] || []).map(text => ({id:uid(), text, done:false, group:groupName}));
+  }
+
+  // Controle de aulas/palestras assistidas da pós (MBA)
+  const MBA_LECTURES = {
+    'Engenharia de software': [
+      'Liderança em projetos de tecnologia 2',
+      'Blockchain e cripto 1',
+      'Blockchain e cripto 2',
+      'Paradigmas de Desenvolvimento 1',
+      'Paradigmas de Desenvolvimento 2',
+      'Padrões de projetos'
+    ],
+    'Inglês (aulas)': [
+      'English in Science 2',
+      'Academic English',
+      'What is reading?',
+      'What is listening?',
+      'Integrating and listening abilities',
+      'Plantão de dúvidas 1',
+      'Plantão de dúvidas 2',
+      'Plantão de dúvidas 3a',
+      'Plantão de dúvidas 4'
+    ],
+    'Palestras pendentes': [
+      'Chamada de um sucesso',
+      'Europa em Foco',
+      'Gestão de equipes de alta performance',
+      'Unified Experience',
+      'Insights do Palco',
+      'Como a IA está',
+      'Idade não define talento',
+      'Carreira executiva',
+      'Reforma tributária',
+      'IA estratégica',
+      'Internacionalização de negócios',
+      'A vantagem competitiva',
+      'Faça sua marca',
+      'Entrevista sem mistério'
+    ]
+  };
+
+  function lectureTasks(groupName){
+    return (MBA_LECTURES[groupName] || []).map(text => ({id:uid(), text, done:false, group:groupName}));
+  }
+
+  function migrateMbaLectures(parsedState){
+    const mbaTasks = parsedState.areas && parsedState.areas.mba && parsedState.areas.mba.tasks;
+    if(!mbaTasks) return;
+    Object.keys(MBA_LECTURES).forEach(groupName=>{
+      const hasGroup = mbaTasks.some(t=>t.group === groupName);
+      if(!hasGroup){
+        mbaTasks.push.apply(mbaTasks, lectureTasks(groupName));
+      }
+    });
+  }
+
+  function migrateAwsCurricula(parsedState){
+    const awsTasks = parsedState.areas && parsedState.areas.aws && parsedState.areas.aws.tasks;
+    if(!awsTasks) return;
+    Object.keys(AWS_CURRICULA).forEach(groupName=>{
+      const hasGroup = awsTasks.some(t=>t.group === groupName);
+      if(!hasGroup){
+        awsTasks.push.apply(awsTasks, curriculumTasks(groupName));
+      }
+    });
+  }
+
+  function defaultPomodoro(){
+    return {
+      area:'aws', workMin:25, breakMin:5, longBreakMin:15, cyclesUntilLong:4,
+      phase:'idle', isRunning:false, remainingSeconds:25*60, endAt:null,
+      cycleCount:0, sessionsToday:0, lastSessionDate: todayISO()
+    };
+  }
+
+  function defaultPomoTopics(){ return []; }
+
+  function defaultDailyGoals(){
+    return [
+      {id:uid(), areaKey:'pdi',    label:'Estudo do PDI',  minutes:60},
+      {id:uid(), areaKey:'ingles', label:'Duolingo',       minutes:5},
+      {id:uid(), areaKey:'mba',    label:'TCC',            minutes:30},
+      {id:uid(), areaKey:'aws',    label:'Certificação',   minutes:60}
+    ];
+  }
+
+  function migratePomodoro(parsedState){
+    if(!parsedState.pomodoro){ parsedState.pomodoro = defaultPomodoro(); return; }
+    const p = parsedState.pomodoro;
+    const d = defaultPomodoro();
+    Object.keys(d).forEach(k=>{ if(!(k in p)) p[k] = d[k]; });
+    if(!parsedState.areas[p.area]) p.area = 'aws';
+  }
+
+  // Migra áreas antigas que tinham só `logged` (número) para o novo loggedDays
+  function migrateLoggedDays(parsedState){
+    if(!parsedState.areas) return;
+    Object.values(parsedState.areas).forEach(a=>{
+      if(!a.loggedDays){
+        a.loggedDays = [];
+        // se havia horas registradas, cria uma entrada "legado" na data de hoje
+        if(a.logged && a.logged > 0){
+          a.loggedDays.push({id:uid(), date:todayISO(), hours:a.logged});
+        }
+      }
+      // garante que logged é sempre a soma do log
+      a.logged = a.loggedDays.reduce((s,e)=>s+e.hours, 0);
+    });
+  }
+
+  function defaultState(){
+    return {
+      weekStart: todayISO(),
+      pomodoro: defaultPomodoro(),
+      pomodoroDays: {},
+      pomoTopics: [],
+      dailyGoals: defaultDailyGoals(),
+      areas: {
+        aws: {
+          label:'AWS Academy', emoji:'☁️', accent:'aws', priority:true,
+          status:'andamento', target:2.5, logged:0, deadline:'', notes:'', loggedDays:[],
+          tasks:[
+            ...curriculumTasks('Generative AI Foundations'),
+            ...curriculumTasks('Cloud Foundations')
+          ]
+        },
+        pdi: {
+          label:'PDI do trabalho', emoji:'🎯', accent:'pdi', priority:false,
+          status:'andamento', target:0.5, logged:0, deadline:'', notes:'', loggedDays:[],
+          tasks:[
+            {id:uid(), text:'Learn JS Basics with 30 Qs (30d)', done:false, group:'Lógica de programação'},
+            {id:uid(), text:'Condicional', done:true, group:'Javascript'},
+            {id:uid(), text:'Laços e repetição', done:true, group:'Javascript'},
+            {id:uid(), text:'Funções', done:true, group:'Javascript'},
+            {id:uid(), text:'Arrays', done:true, group:'Javascript'},
+            {id:uid(), text:'Objetos', done:true, group:'Javascript'},
+            {id:uid(), text:'Javascript: Manipulando objetos', done:true, group:'Javascript Avançado'},
+            {id:uid(), text:'Primeiro app', done:true, group:'Java Back-end'},
+            {id:uid(), text:'Orientação a objetos', done:true, group:'Java Back-end'},
+            {id:uid(), text:'Listas e coleções', done:true, group:'Java Back-end'},
+            {id:uid(), text:'Java execuções', done:false, group:'Java Back-end'},
+            {id:uid(), text:'MongoDB', done:false, group:'Java Back-end'},
+            {id:uid(), text:'SQL', done:false, group:'Java Back-end'},
+            {id:uid(), text:'NoSQL', done:false, group:'Java Back-end'},
+            {id:uid(), text:'Treinamento ArgoCD', done:false, group:'Ferramentas'},
+            {id:uid(), text:'Dynatrace', done:false, group:'Ferramentas'}
+          ]
+        },
+        mba: {
+          label:'MBA / TCC', emoji:'🎓', accent:'mba', priority:false,
+          status:'andamento', target:1, logged:0, deadline:'', loggedDays:[],
+          notes:'Próxima etapa: iniciar o Trabalho Final e incorporar o feedback dos Resultados Preliminares.',
+          tasks:[
+            {id:uid(), text:'Fase 1 • Vídeos', done:true, group:'Etapas do TCC'},
+            {id:uid(), text:'Fase 2 • Questionário', done:true, group:'Etapas do TCC'},
+            {id:uid(), text:'Fase 3 • Projeto', done:true, group:'Etapas do TCC'},
+            {id:uid(), text:'Fase 4 • Resultados preliminares', done:true, group:'Etapas do TCC'},
+            {id:uid(), text:'Fase 5 • Trabalho Final', done:false, group:'Etapas do TCC'},
+            {id:uid(), text:'Fase 6 • Slides', done:false, group:'Etapas do TCC'},
+            {id:uid(), text:'Fase 7 • Versão revisada do Trabalho Final', done:false, group:'Etapas do TCC'},
+            ...lectureTasks('Engenharia de software'),
+            ...lectureTasks('Inglês (aulas)'),
+            ...lectureTasks('Palestras pendentes')
+          ]
+        },
+        ingles: {
+label:'Inglês', emoji:'🗣️', accent:'eng', priority:false,status:'andamento', target:7.5, logged:0, deadline:'', notes:'Plano de estudos B2.', loggedDays:[],tasks:[
+{id:uid(), text:'5 min • Duolingo', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'15 min • Estudar gramática e vocabulário (Neither / so do I)', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'8 min • Exercícios de compreensão e gramática', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'5 min • Routine', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'5 min • Ler a transcrição do vídeo', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'5 min • Ouvir um vídeo curto', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'7 min • Revisar anotações', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'15 min • Ler notícias ou um capítulo', done:false, doneDates:[], group:'Rotina diária'},
+{id:uid(), text:'Used to + infinitive', done:false, group:'Gramática B2'},
+{id:uid(), text:'Past Simple and Present Perfect', done:false, group:'Gramática B2'},
+{id:uid(), text:'Neither / so do I', done:false, group:'Gramática B2'},
+{id:uid(), text:'Modal verbs', done:false, group:'Gramática B2'},
+{id:uid(), text:'Reported speech', done:false, group:'Gramática B2'},
+{id:uid(), text:'First conditional', done:false, group:'Gramática B2'},
+{id:uid(), text:'Second conditional', done:false, group:'Gramática B2'},
+{id:uid(), text:'Present Perfect Continuous', done:false, group:'Gramática B2'},
+{id:uid(), text:'Past Perfect', done:false, group:'Gramática B2'},
+{id:uid(), text:'Question tags', done:false, group:'Gramática B2'},
+{id:uid(), text:'Future Perfect', done:false, group:'Gramática B2'},
+{id:uid(), text:'Past Perfect Continuous', done:false, group:'Gramática B2'},
+{id:uid(), text:'Present Passive', done:false, group:'Gramática B2'},
+{id:uid(), text:'Past Passive', done:false, group:'Gramática B2'},
+{id:uid(), text:'Future Passive', done:false, group:'Gramática B2'},
+{id:uid(), text:'Look + adjective', done:false, group:'Gramática B2'},
+{id:uid(), text:'Be able to', done:false, group:'Gramática B2'},
+{id:uid(), text:'Have and have got', done:false, group:'Gramática B2'},
+{id:uid(), text:'Be allowed to', done:false, group:'Gramática B2'},
+{id:uid(), text:'A few / A little', done:false, group:'Gramática B2'},
+{id:uid(), text:'Although / Despite', done:false, group:'Gramática B2'},
+{id:uid(), text:'Adjective connotations', done:false, group:'Gramática B2'},
+{id:uid(), text:'Modifiers', done:false, group:'Gramática B2'},
+{id:uid(), text:'Adverbs of manner', done:false, group:'Gramática B2'},
+{id:uid(), text:'Appearances', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Character', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Make and do', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Housework', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Holidays', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Illness', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Cooking', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Furniture', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Books, films and TV', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Crime', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Political systems', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Family relationships', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Pets', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Consumer services', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Hotel facilities', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Affixes', done:false, group:'Vocabulário B2'},
+{id:uid(), text:'Describing People, Places and Things', done:false, group:'Tópicos B2'},
+{id:uid(), text:'Stating preferences and opinions', done:false, group:'Tópicos B2'},
+{id:uid(), text:'Reporting requests and orders', done:false, group:'Tópicos B2'},
+{id:uid(), text:'Guessing', done:false, group:'Tópicos B2'},
+{id:uid(), text:'Talking about possibility', done:false, group:'Tópicos B2'},
+{id:uid(), text:'Describing faulty goods', done:false, group:'Tópicos B2'},
+{id:uid(), text:'Refusing', done:false, group:'Tópicos B2'}
+]
+        }
+      },
+      days: { aws:[false,false,false,false,false,false,false], pdi:[false,false,false,false,false,false,false], mba:[false,false,false,false,false,false,false], ingles:[false,false,false,false,false,false,false] },
+      history: []
+    };
+  }
+
+  let state = load();
+
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return defaultState();
+      const parsed = JSON.parse(raw);
+      if(!parsed.areas || !parsed.days) return defaultState();
+      migrateAwsCurricula(parsed);
+      migrateMbaLectures(parsed);
+      migratePomodoro(parsed);
+      migrateLoggedDays(parsed);
+      migrateDailyTasks(parsed);
+      if(!parsed.pomodoroDays) parsed.pomodoroDays = {};
+      if(!parsed.pomoTopics) parsed.pomoTopics = [];
+      if(!parsed.dailyGoals) parsed.dailyGoals = defaultDailyGoals();
+      return parsed;
+    }catch(e){ return defaultState(); }
+  }
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch(e){ console.error('Falha ao salvar', e); }
+    scheduleCloudSync();
+  }
+
+  /* ─── GitHub Cloud Sync ─────────────────────────────────────────────────
+     Os dados ficam salvos em um arquivo JSON dentro de um repositório do
+     GitHub. Leitura: pública, sem token (funciona em qualquer aparelho).
+     Escrita: precisa de um Personal Access Token, salvo só no localStorage
+     deste aparelho (botão de sync no topo).
+     ─────────────────────────────────────────────────────────────────── */
+  const GH_CONFIG = {
+    owner:  'Yuni-Auto',
+    repo:   'gestor-estudos',
+    branch: 'main',
+    path:   'data.json',
+  };
+  const GH_TOKEN_KEY = 'gh-sync-token-estudos-v1';
+  // Guarda quando os dados LOCAIS foram alterados pela última vez, pra nunca
+  // deixar um data.json antigo/incompleto da nuvem sobrescrever dados locais mais novos.
+  const LOCAL_UPDATED_KEY = 'estudos-controle-local-updated-at-v1';
+  let ghFileSha    = null;  // sha do último arquivo lido/gravado (necessário pro GitHub aceitar updates)
+  let ghSyncTimer  = null;
+  let ghIsSyncing  = false;
+  let ghPendingSave = false;
+  let ghSuppressSync = false; // evita loop ao aplicar dados vindos da própria nuvem
+
+  function touchLocalTimestamp(){ localStorage.setItem(LOCAL_UPDATED_KEY, new Date().toISOString()); }
+  function getLocalTimestamp(){ return localStorage.getItem(LOCAL_UPDATED_KEY) || null; }
+
+  function ghApiUrl(){
+    return `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}`;
+  }
+  function getGhToken(){ return localStorage.getItem(GH_TOKEN_KEY) || ''; }
+  function setGhToken(t){ if(t) localStorage.setItem(GH_TOKEN_KEY, t); else localStorage.removeItem(GH_TOKEN_KEY); }
+
+  function b64EncodeUnicode(str){
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m, p1) => String.fromCharCode('0x' + p1)));
+  }
+  function b64DecodeUnicode(str){
+    return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+  }
+
+  function setSyncStatus(state_, msg){
+    const dot = document.getElementById('sync-dot');
+    const label = document.getElementById('sync-label');
+    const modalStatus = document.getElementById('sync-modal-status');
+    if(dot) dot.className = 'sync-dot sync-' + state_;
+    if(label) label.textContent = msg;
+    if(modalStatus) modalStatus.textContent = msg;
+  }
+
+  /* Empacota todo o state num objeto só, com timestamp, pra salvar na nuvem */
+  function collectAllData(){
+    return { state, _updatedAt: new Date().toISOString() };
+  }
+
+  function applyRemoteData(data){
+    if(!data || !data.state || !data.state.areas || !data.state.days) return;
+    ghSuppressSync = true;
+    state = data.state;
+    if(!state.pomodoroDays) state.pomodoroDays = {};
+    if(!state.pomoTopics) state.pomoTopics = [];
+    if(!state.dailyGoals) state.dailyGoals = defaultDailyGoals();
+    migrateAwsCurricula(state);
+    migrateMbaLectures(state);
+    migratePomodoro(state);
+    migrateLoggedDays(state);
+    migrateDailyTasks(state);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    rehydrateAreaKeys();
+    renderAll();
+    pomoStopTicking();
+    if(state.pomodoro && state.pomodoro.isRunning){ pomoStartTicking(); pomoTick(); }
+    // Alinha o "relógio" local com o da nuvem, já que agora estão iguais.
+    localStorage.setItem(LOCAL_UPDATED_KEY, data._updatedAt || new Date().toISOString());
+    ghSuppressSync = false;
+  }
+
+  /* Busca o arquivo de dados no GitHub. Funciona sem token (repo público). */
+  async function pullFromGitHub(silent){
+    if(!silent) setSyncStatus('syncing', 'Carregando da nuvem…');
+    try{
+      const headers = { 'Accept': 'application/vnd.github+json' };
+      const token = getGhToken();
+      if(token) headers['Authorization'] = 'token ' + token;
+      const res = await fetch(ghApiUrl(), { headers, cache: 'no-store' });
+      if(res.status === 404){
+        ghFileSha = null;
+        setSyncStatus(getGhToken() ? 'warn' : 'offline', 'Nenhum dado na nuvem ainda');
+        return false;
+      }
+      if(res.status === 403 || res.status === 429){
+        const remaining = res.headers.get('x-ratelimit-remaining');
+        const resetHeader = res.headers.get('x-ratelimit-reset');
+        if(remaining === '0' && resetHeader){
+          const resetDate = new Date(Number(resetHeader) * 1000);
+          const mins = Math.max(1, Math.ceil((resetDate - Date.now()) / 60000));
+          setSyncStatus('error', `Limite de requisições da API atingido — tente de novo em ~${mins} min`);
+        } else {
+          setSyncStatus('error', 'GitHub bloqueou a requisição (403) — tente de novo mais tarde');
+        }
+        return false;
+      }
+      if(!res.ok){ setSyncStatus('error', `Erro da nuvem (HTTP ${res.status}) — usando dados locais`); return false; }
+      const json = await res.json();
+      ghFileSha = json.sha;
+      const raw = b64DecodeUnicode(json.content.replace(/\n/g, ''));
+      const data = JSON.parse(raw);
+
+      // Só aceita os dados da nuvem se eles forem realmente mais recentes que
+      // os locais. Evita que um data.json antigo/incompleto apague dados que
+      // só existem neste aparelho (ex: nunca sincronizados ainda).
+      const hasLocalData = state && state.areas && Object.keys(state.areas).length > 0;
+      const localTs = getLocalTimestamp();
+      const remoteTs = data._updatedAt;
+      const remoteIsNewer = remoteTs && localTs && new Date(remoteTs) > new Date(localTs);
+
+      if(hasLocalData && !remoteIsNewer){
+        if(!localTs) touchLocalTimestamp();
+        if(getGhToken()){
+          setSyncStatus('warn', 'Dados locais preservados — enviando pra nuvem…');
+          scheduleCloudSync();
+        } else {
+          setSyncStatus('offline', 'Dados locais preservados (nuvem desatualizada)');
+        }
+        return false;
+      }
+
+      applyRemoteData(data);
+      setSyncStatus('ok', 'Sincronizado ✓');
+      return true;
+    }catch(e){
+      // TypeError de fetch geralmente é falha de rede/DNS/bloqueio (ex: bloqueador
+      // de conteúdo barrando api.github.com), diferente de um erro de resposta HTTP.
+      if(e instanceof TypeError){
+        setSyncStatus('offline', 'Sem conexão com a nuvem (rede ou bloqueador de conteúdo) — usando dados locais');
+      } else {
+        setSyncStatus('offline', 'Offline — usando dados locais');
+      }
+      return false;
+    }
+  }
+
+  function scheduleCloudSync(){
+    if(ghSuppressSync) return; // evita loop ao aplicar dados recém-baixados da nuvem
+    touchLocalTimestamp();
+    ghPendingSave = true;
+    if(!getGhToken()){ setSyncStatus('warn', 'Alterações não salvas na nuvem (sem token)'); return; }
+    setSyncStatus('syncing', 'Alterações pendentes…');
+    clearTimeout(ghSyncTimer);
+    ghSyncTimer = setTimeout(pushToGitHub, 2500);
+  }
+
+  async function pushToGitHub(){
+    const token = getGhToken();
+    if(!token){ setSyncStatus('warn', 'Configure o token pra sincronizar'); return; }
+    if(ghIsSyncing){ ghPendingSave = true; return; }
+    ghIsSyncing = true;
+    ghPendingSave = false;
+    setSyncStatus('syncing', 'Salvando na nuvem…');
+    try{
+      const payload = JSON.stringify(collectAllData(), null, 2);
+      const body = {
+        message: 'Atualiza dados — ' + new Date().toISOString(),
+        content: b64EncodeUnicode(payload),
+        branch: GH_CONFIG.branch,
+      };
+      if(ghFileSha) body.sha = ghFileSha;
+      const res = await fetch(ghApiUrl().split('?')[0], {
+        method: 'PUT',
+        headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if(res.status === 409){
+        // conflito: outro aparelho salvou antes. Recarrega e avisa.
+        await pullFromGitHub(true);
+        setSyncStatus('warn', 'Conflito — dados recarregados, tente salvar de novo');
+        return;
+      }
+      if(res.status === 401 || res.status === 403){
+        setSyncStatus('error', 'Token inválido ou sem permissão');
+        return;
+      }
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      ghFileSha = json.content.sha;
+      setSyncStatus('ok', 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+    }catch(e){
+      setSyncStatus('error', 'Erro ao salvar — tentando de novo em breve');
+      clearTimeout(ghSyncTimer);
+      ghSyncTimer = setTimeout(pushToGitHub, 8000);
+    }finally{
+      ghIsSyncing = false;
+      if(ghPendingSave){ clearTimeout(ghSyncTimer); ghSyncTimer = setTimeout(pushToGitHub, 1500); }
+    }
+  }
+
+  function openSyncModal(){
+    document.getElementById('sync-token-input').value = getGhToken();
+    document.getElementById('sync-repo-label').textContent = `${GH_CONFIG.owner}/${GH_CONFIG.repo} (${GH_CONFIG.branch})`;
+    document.getElementById('syncModalOverlay').classList.add('open');
+  }
+  function closeSyncModal(){ document.getElementById('syncModalOverlay').classList.remove('open'); }
+  function saveGhTokenFromModal(){
+    const val = document.getElementById('sync-token-input').value.trim();
+    setGhToken(val);
+    closeSyncModal();
+    if(val) pullFromGitHub(false).then(() => { if(!ghFileSha) pushToGitHub(); });
+    else setSyncStatus('offline', 'Somente leitura (sem token)');
+  }
+  function clearGhTokenFromModal(){
+    setGhToken('');
+    document.getElementById('sync-token-input').value = '';
+    setSyncStatus('offline', 'Somente leitura (sem token)');
+  }
+  function manualSyncNow(){ pullFromGitHub(false); }
+  window.openSyncModal = openSyncModal;
+  window.exportLocalBackup = exportLocalBackup;
+  window.importLocalBackup = importLocalBackup;
+  window.manualSyncNow = manualSyncNow;
+  window.clearGhTokenFromModal = clearGhTokenFromModal;
+
+  /* ─── Backup manual (arquivo .json local) ──────────────────────────────── */
+  function exportLocalBackup(){
+    const payload = JSON.stringify(collectAllData(), null, 2);
+    const blob = new Blob([payload], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+    a.href = url;
+    a.download = `estudos-controle-backup-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function importLocalBackup(event){
+    const file = event.target.files && event.target.files[0];
+    event.target.value = ''; // permite reimportar o mesmo arquivo depois
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      let data;
+      try{ data = JSON.parse(reader.result); }
+      catch(e){ alert('Arquivo inválido — não é um JSON de backup reconhecível.'); return; }
+      if(!data.state || !data.state.areas){ alert('Arquivo inválido — não parece ser um backup deste painel.'); return; }
+      const qtdAreas = Object.keys(data.state.areas).length;
+      const ok = confirm(
+        `Importar este backup vai SUBSTITUIR os dados atuais deste navegador (${qtdAreas} área(s) de estudo encontradas).\n\n` +
+        `Isso não pode ser desfeito. Deseja continuar?`
+      );
+      if(!ok) return;
+      applyRemoteData(data);
+      touchLocalTimestamp();
+      setSyncStatus('warn', 'Backup importado — envie pra nuvem se quiser sincronizar');
+      if(getGhToken()) scheduleCloudSync();
+    };
+    reader.onerror = () => alert('Não foi possível ler o arquivo.');
+    reader.readAsText(file);
+  }
+
+  const AREA_KEYS_DEFAULT = ['aws','pdi','mba','ingles'];
+  const AREA_KEYS = [...AREA_KEYS_DEFAULT];
+
+  // Recarrega áreas customizadas salvas no state
+  function rehydrateAreaKeys(){
+    Object.keys(state.areas).forEach(k=>{
+      if(!AREA_KEYS.includes(k)) AREA_KEYS.push(k);
+    });
+  }
+  rehydrateAreaKeys();
+
+  function renderAll(){
+    renderWeekHeader();
+    renderBudget();
+    renderPomoStreak();
+    renderPomo();
+    renderAreas();
+    renderFocusChart();
+    renderDailyGoals();
+  }
+
+  function renderWeekHeader(){
+    const end = addDays(state.weekStart, 6);
+    document.getElementById('weekRangeLabel').textContent = fmtDM(state.weekStart) + ' – ' + fmtDM(end);
+  }
+
+  function renderBudget(){
+    const total = AREA_KEYS.reduce((s,k)=> s + Number(state.areas[k].target || 0), 0);
+    document.getElementById('budgetTotalLabel').textContent = fmtHours(total) + ' / semana';
+    const bar = document.getElementById('budgetBar');
+    const legend = document.getElementById('budgetLegend');
+    bar.innerHTML = '';
+    legend.innerHTML = '';
+    AREA_KEYS.forEach(k=>{
+      const a = state.areas[k];
+      const pct = total > 0 ? (Number(a.target||0) / total * 100) : 0;
+      const seg = document.createElement('div');
+      seg.className = 'budget-seg';
+      seg.style.width = pct + '%';
+      seg.style.background = 'var(--' + a.accent + ')';
+      seg.title = a.label + ': ' + fmtHours(a.target);
+      bar.appendChild(seg);
+
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = '<span class="legend-dot" style="background:var(--'+a.accent+')"></span>' + a.label + ' <b>' + fmtHours(a.target) + '</b>';
+      legend.appendChild(item);
+    });
+  }
+
+  // ---------- Pomodoro ----------
+  const POMO_PHASE_LABELS = { idle:'Pronto', work:'Foco', break:'Pausa', longBreak:'Pausa longa' };
+  let pomoTickHandle = null;
+
+  function pomoPhaseDuration(phase){
+    const p = state.pomodoro;
+    if(phase === 'break') return Math.max(1, Math.round(p.breakMin)) * 60;
+    if(phase === 'longBreak') return Math.max(1, Math.round(p.longBreakMin)) * 60;
+    return Math.max(1, Math.round(p.workMin)) * 60; // 'work' e 'idle' usam a duração de foco
+  }
+
+  function pomoFormatTime(totalSeconds){
+    const s = Math.max(0, Math.round(totalSeconds));
+    const m = Math.floor(s/60), sec = s%60;
+    return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
+  }
+
+  function pomoEnsureTodayCount(){
+    const p = state.pomodoro;
+    const today = todayISO();
+    if(p.lastSessionDate !== today){ p.lastSessionDate = today; p.sessionsToday = 0; }
+  }
+
+  function pomoCurrentRemaining(){
+    const p = state.pomodoro;
+    if(p.isRunning && p.endAt) return Math.max(0, (p.endAt - Date.now())/1000);
+    return p.remainingSeconds;
+  }
+
+  function pomoStartTicking(){
+    if(pomoTickHandle) return;
+    pomoTickHandle = setInterval(pomoTick, 1000);
+  }
+  function pomoStopTicking(){
+    if(pomoTickHandle){ clearInterval(pomoTickHandle); pomoTickHandle = null; }
+  }
+
+  function pomoPlayChime(){
+    try{
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if(!Ctx) return;
+      const ctx = new Ctx();
+      [659.25, 783.99, 987.77].forEach((freq, i)=>{
+        const osc = ctx.createOscillator(), gain = ctx.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq;
+        const start = ctx.currentTime + i*0.16;
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.18, start+0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start+0.3);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(start); osc.stop(start+0.32);
+      });
+      setTimeout(()=>{ try{ ctx.close(); }catch(e){} }, 900);
+    }catch(e){ /* som indisponível, segue sem ele */ }
+  }
+
+  function pomoLogWork(elapsedSeconds){
+    // As horas do Pomodoro são contabilizadas via pomoTopics (pomoHoursForArea)
+    // O campo a.logged agora é exclusivo para horas registradas manualmente
+    void elapsedSeconds;
+  }
+
+  function pomoRegisterTopic(areaKey, elapsedSeconds){
+    if(!state.pomoTopics) state.pomoTopics = [];
+    const today = todayISO();
+    const weekStart = state.weekStart;
+    // Só registra se estiver dentro da semana atual
+    if(today < weekStart) return;
+    const durationMin = Math.max(1, Math.round(elapsedSeconds / 60));
+    // Agrupa por área+dia: acumula no mesmo item se já existe entrada hoje para esta área
+    const existing = state.pomoTopics.find(t => t.areaKey === areaKey && t.date === today);
+    if(existing){
+      existing.sessions += 1;
+      existing.durationMin += durationMin;
+    } else {
+      state.pomoTopics.push({
+        id: uid(),
+        areaKey,
+        date: today,
+        sessions: 1,
+        durationMin
+      });
+    }
+    // Remove entradas de semanas anteriores
+    state.pomoTopics = state.pomoTopics.filter(t => t.date >= weekStart);
+  }
+
+  function pomoTick(){
+    const p = state.pomodoro;
+    if(!p.isRunning || !p.endAt){ pomoStopTicking(); return; }
+    const remaining = (p.endAt - Date.now())/1000;
+    if(remaining <= 0){ pomoCompletePhase(true); }
+    else{
+      document.getElementById('pomoTimerDisplay').textContent = pomoFormatTime(remaining);
+      document.title = pomoFormatTime(remaining)+' · '+(POMO_PHASE_LABELS[p.phase]||'')+' — Estudos';
+    }
+  }
+
+  function pomoCompletePhase(natural){
+    const p = state.pomodoro;
+    pomoStopTicking();
+    if(p.isRunning && p.endAt) p.remainingSeconds = Math.max(0, (p.endAt - Date.now())/1000);
+    pomoEnsureTodayCount();
+
+    if(p.phase === 'work'){
+      const fullSeconds = pomoPhaseDuration('work');
+      const elapsed = natural ? fullSeconds : Math.max(0, fullSeconds - p.remainingSeconds);
+      pomoLogWork(elapsed);
+      pomoRegisterTopic(p.area, elapsed);
+      const elapsedMin = Math.max(1, Math.round(elapsed / 60));
+      p.cycleCount += 1;
+      p.sessionsToday += 1;
+      pomoRegisterDay(elapsedMin);
+      const goingLong = (p.cycleCount % Math.max(1, p.cyclesUntilLong)) === 0;
+      p.phase = goingLong ? 'longBreak' : 'break';
+      p.remainingSeconds = pomoPhaseDuration(p.phase);
+      p.isRunning = true; // a pausa começa automaticamente
+      p.endAt = Date.now() + p.remainingSeconds*1000;
+      pomoStartTicking();
+    } else {
+      // pausa concluída — aguarda início manual do próximo foco
+      p.phase = 'work';
+      p.remainingSeconds = pomoPhaseDuration('work');
+      p.isRunning = false;
+      p.endAt = null;
+    }
+
+    pomoPlayChime();
+    save();
+    renderAreas();
+    renderBudget();
+    renderPomoStreak();
+    renderFocusChart();
+    renderPomoTimer();
+    renderDailyGoals();
+  }
+
+  function pomoStart(){
+    const p = state.pomodoro;
+    if(p.isRunning) return;
+    if(p.phase === 'idle'){ p.phase = 'work'; p.remainingSeconds = pomoPhaseDuration('work'); }
+    if(!p.remainingSeconds || p.remainingSeconds <= 0) p.remainingSeconds = pomoPhaseDuration(p.phase);
+    p.isRunning = true;
+    p.endAt = Date.now() + p.remainingSeconds*1000;
+    pomoStartTicking();
+    save();
+    renderPomoTimer();
+  }
+
+  function pomoPause(){
+    const p = state.pomodoro;
+    if(!p.isRunning) return;
+    p.remainingSeconds = Math.max(0, (p.endAt - Date.now())/1000);
+    p.isRunning = false;
+    p.endAt = null;
+    pomoStopTicking();
+    save();
+    renderPomoTimer();
+  }
+
+  function pomoResetPhase(){
+    const p = state.pomodoro;
+    pomoStopTicking();
+    if(p.phase === 'idle') p.phase = 'work';
+    p.remainingSeconds = pomoPhaseDuration(p.phase);
+    p.isRunning = false;
+    p.endAt = null;
+    save();
+    renderPomoTimer();
+  }
+
+  function renderPomoAreaOptions(){
+    const sel = document.getElementById('pomoAreaSelect');
+    sel.innerHTML = AREA_KEYS.map(k=>{
+      const a = state.areas[k];
+      const selAttr = k === state.pomodoro.area ? 'selected' : '';
+      return '<option value="'+k+'" '+selAttr+'>'+a.emoji+' '+a.label+'</option>';
+    }).join('');
+  }
+
+  function renderPomoSettings(){
+    const p = state.pomodoro;
+    document.getElementById('pomoWorkMin').value = p.workMin;
+    document.getElementById('pomoBreakMin').value = p.breakMin;
+    document.getElementById('pomoLongBreakMin').value = p.longBreakMin;
+    document.getElementById('pomoCyclesLong').value = p.cyclesUntilLong;
+  }
+
+  function renderPomoAccent(){
+    const a = state.areas[state.pomodoro.area];
+    ['pomoSection','pomoTimerCard'].forEach(id=>{
+      const section = document.getElementById(id);
+      if(section && a){
+        section.style.setProperty('--accent', 'var(--'+a.accent+')');
+        section.style.setProperty('--accent-soft', 'var(--'+a.accent+'-soft)');
+      }
+    });
+  }
+
+  function pomoFormatMinutes(totalMin){
+    const m = Math.max(0, Math.round(totalMin));
+    if(m >= 60){
+      const h = Math.floor(m/60), rem = m%60;
+      return h + 'h' + (rem>0 ? (rem<10?'0':'')+rem : '');
+    }
+    return m + 'min';
+  }
+
+  function renderPomoSummary(){
+    const p = state.pomodoro;
+    const totalFocusMin = p.workMin * p.cyclesUntilLong;
+    document.getElementById('pomoTotalTimeLabel').textContent = pomoFormatMinutes(totalFocusMin);
+    document.getElementById('pomoBreakdownLabel').innerHTML =
+      '<span>Foco '+p.workMin+'min × '+p.cyclesUntilLong+'</span>'
+      +'<span>Pausa '+p.breakMin+'min × '+p.cyclesUntilLong+'</span>';
+  }
+
+  function renderPomoTimer(){
+    const p = state.pomodoro;
+    pomoEnsureTodayCount();
+    const remaining = pomoCurrentRemaining();
+    const fullDuration = pomoPhaseDuration(p.phase);
+    const fresh = !p.isRunning && remaining >= fullDuration - 0.5;
+
+    document.getElementById('pomoTimerDisplay').textContent = pomoFormatTime(remaining);
+    document.getElementById('pomoPhaseLabel').textContent = POMO_PHASE_LABELS[p.phase] || 'Foco';
+
+    const position = (p.cycleCount % Math.max(1, p.cyclesUntilLong)) + 1;
+    let cycleText = 'Pomodoro '+position+' de '+p.cyclesUntilLong;
+    if(p.phase === 'break') cycleText = 'Pausa curta';
+    if(p.phase === 'longBreak') cycleText = 'Pausa longa — novo ciclo a seguir';
+    document.getElementById('pomoCycleLabel').textContent = cycleText;
+
+    document.getElementById('pomoToggleBtn').textContent = p.isRunning ? 'Pausar' : (fresh ? 'Iniciar' : 'Retomar');
+    document.getElementById('pomoResetBtn').disabled = (p.phase === 'idle');
+    document.getElementById('pomoFinishBtn').disabled = (p.phase === 'idle');
+
+    document.getElementById('pomoAreaSelect').disabled = !fresh;
+    ['pomoWorkMin','pomoBreakMin','pomoLongBreakMin','pomoCyclesLong'].forEach(id=>{
+      document.getElementById(id).disabled = !fresh;
+    });
+
+    document.getElementById('pomoSection').classList.toggle('is-running', p.isRunning);
+    document.getElementById('pomoTimerCard').classList.toggle('is-running', p.isRunning);
+
+    document.title = p.isRunning
+      ? pomoFormatTime(remaining)+' · '+(POMO_PHASE_LABELS[p.phase]||'')+' — Estudos'
+      : 'Painel de Controle de Estudos';
+  }
+
+  function renderPomo(){
+    renderPomoAreaOptions();
+    renderPomoSettings();
+    renderPomoSummary();
+    renderPomoAccent();
+    renderPomoTimer();
+  }
+
+  // ---------- Sequência de foco (semana começando no domingo) ----------
+  const DAY_LABELS_SUN = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+  function pomoWeekDatesSunday(){
+    const t = new Date(); t.setHours(0,0,0,0);
+    const dow = t.getDay(); // 0=Dom ... 6=Sáb
+    const dates = [];
+    for(let i = -dow; i <= 6-dow; i++){ dates.push(addDays(todayISO(), i)); }
+    return dates;
+  }
+
+  function pomoRegisterDay(durationMin){
+    const dKey = todayISO();
+    if(!state.pomodoroDays[dKey] || typeof state.pomodoroDays[dKey] === 'number'){
+      // migra formato antigo (só count) para objeto
+      const oldCount = typeof state.pomodoroDays[dKey] === 'number' ? state.pomodoroDays[dKey] : 0;
+      state.pomodoroDays[dKey] = { count: oldCount, min: 0 };
+    }
+    state.pomodoroDays[dKey].count += 1;
+    state.pomodoroDays[dKey].min += (durationMin || 0);
+    pomoPruneDays();
+  }
+
+  function pomoPruneDays(){
+    const cutoff = addDays(todayISO(), -60);
+    Object.keys(state.pomodoroDays).forEach(d=>{
+      if(d < cutoff) delete state.pomodoroDays[d];
+    });
+  }
+
+  function dayCount(dKey){
+    const v = state.pomodoroDays[dKey];
+    if(!v) return 0;
+    return typeof v === 'number' ? v : (v.count || 0);
+  }
+  function dayMin(dKey){
+    const v = state.pomodoroDays[dKey];
+    if(!v) return 0;
+    return typeof v === 'number' ? 0 : (v.min || 0);
+  }
+
+  // Considera "dia com foco" tanto pomodoros quanto itens do checklist
+  // marcados manualmente (ex.: rotina diária de Inglês). Cada item de
+  // checklist concluído no dia conta como "1", igual a um pomodoro,
+  // pra manter a contagem padronizada em número de unidades, não horas.
+  function dayManualTaskCount(dateISO){
+    let total = 0;
+    AREA_KEYS.forEach(k=>{
+      const a = state.areas[k];
+      if(!a || !a.tasks) return;
+      a.tasks.forEach(t=>{
+        if(isDailyTask(t) && (t.doneDates||[]).includes(dateISO)) total += 1;
+      });
+    });
+    return total;
+  }
+
+  function dayFocusCount(dateISO){
+    return dayCount(dateISO) + dayManualTaskCount(dateISO);
+  }
+
+  function pomoCurrentStreak(){
+    let streak = 0;
+    let cursor = todayISO();
+    if(!(dayFocusCount(cursor) > 0)) cursor = addDays(cursor, -1);
+    while(dayFocusCount(cursor) > 0){
+      streak++;
+      cursor = addDays(cursor, -1);
+    }
+    return streak;
+  }
+
+  function renderPomoStreak(){
+    const today = todayISO();
+    const weekDates = pomoWeekDatesSunday();
+    const grid = document.getElementById('streakGrid');
+    grid.innerHTML = weekDates.map((date, i)=>{
+      const pomoN = dayCount(date);
+      const taskN = dayManualTaskCount(date);
+      const total = pomoN + taskN;
+      const isToday = date === today;
+      const isFuture = date > today;
+      const cellClasses = 'streak-cell' + (isToday?' today':'') + (isFuture?' future':'');
+      const dotClasses = 'streak-dot' + (total>0?' active':'');
+      const dotContent = isFuture ? '' : (total>0 ? total : '');
+      const titleParts = [];
+      if(pomoN>0) titleParts.push(pomoN+' pomodoro(s)');
+      if(taskN>0) titleParts.push(taskN+' item(ns) de checklist');
+      const titleSuffix = titleParts.length ? (' · '+titleParts.join(' · ')) : '';
+      return '<div class="'+cellClasses+'" title="'+fmtDM(date)+titleSuffix+'">'
+        + '<div class="'+dotClasses+'">'+dotContent+'</div>'
+        + '<span class="streak-cell-label">'+DAY_LABELS_SUN[i]+'</span>'
+      + '</div>';
+    }).join('');
+
+    const streak = pomoCurrentStreak();
+    document.getElementById('streakCountLabel').textContent = '🔥 ' + streak + (streak===1?' dia':' dias');
+  }
+
+  const DAY_SHORT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+  // Horas manuais de uma área para uma data específica
+  function manualMinForDay(dateISO){
+    let total = 0;
+    AREA_KEYS.forEach(k=>{
+      const a = state.areas[k];
+      if(!a.loggedDays) return;
+      a.loggedDays.forEach(e=>{
+        if(e.date === dateISO) total += (e.hours || 0) * 60;
+      });
+    });
+    return total;
+  }
+
+  function totalMinForDay(dateISO){
+    return dayMin(dateISO) + manualMinForDay(dateISO);
+  }
+
+  // Minutos (manual + pomodoro) de UMA área específica em um dia específico —
+  // usado pelo quadro de objetivos do dia.
+  function areaMinForDay(areaKey, dateISO){
+    const a = state.areas[areaKey];
+    let manual = 0;
+    if(a && a.loggedDays){
+      const e = a.loggedDays.find(x=>x.date === dateISO);
+      if(e) manual = e.hours * 60;
+    }
+    const topic = (state.pomoTopics || []).find(t => t.areaKey === areaKey && t.date === dateISO);
+    const pomo = topic ? topic.durationMin : 0;
+    return manual + pomo;
+  }
+
+  function renderFocusChart(){
+    const el = document.getElementById('focusChartWrap');
+    const today = todayISO();
+    const days = [];
+    for(let i = 13; i >= 0; i--) days.push(addDays(today, -i));
+
+    const maxMin = Math.max(1, ...days.map(d => totalMinForDay(d)));
+    const hasAny = days.some(d => totalMinForDay(d) > 0);
+
+    if(!hasAny){
+      el.innerHTML = '<p class="focus-chart-empty">Nenhum registro ainda. Complete um Pomodoro ou registre horas manualmente.</p>';
+      return;
+    }
+
+    const yTicks = 4;
+    const yLabels = [];
+    for(let i = yTicks; i >= 0; i--){
+      const val = Math.round((maxMin / yTicks) * i);
+      const label = val >= 60
+        ? Math.floor(val/60)+'h'+(val%60>0?String(val%60).padStart(2,'0'):'')
+        : val+'min';
+      yLabels.push('<span>'+(i === 0 ? '0' : label)+'</span>');
+    }
+
+    const gridlinesHTML = yLabels.map(()=>'<div class="focus-chart-gridline"></div>').join('');
+
+    const barsHTML = days.map(d=>{
+      const pomoMin = dayMin(d);
+      const manMin  = manualMinForDay(d);
+      const total   = pomoMin + manMin;
+      const pct     = Math.round((total / maxMin) * 100);
+      const pomoPct = total > 0 ? Math.round((pomoMin / total) * pct) : 0;
+      const manPct  = pct - pomoPct;
+      const isToday = d === today;
+      if(total === 0){
+        return '<div class="focus-bar-col"><div class="focus-bar-fill" style="height:1%"></div></div>';
+      }
+      return '<div class="focus-bar-col">'
+        + (pomoPct > 0 ? '<div class="focus-bar-fill has-data'+(isToday?' today':'')+'" style="height:'+pomoPct+'%" title="Pomodoro: '+Math.round(pomoMin)+'min"></div>' : '')
+        + (manPct  > 0 ? '<div class="focus-bar-fill has-data manual-bar'+(isToday?' today':'')+'" style="height:'+manPct+'%" title="Manual: '+Math.round(manMin)+'min"></div>' : '')
+      + '</div>';
+    }).join('');
+
+    const xHTML = days.map(d=>{
+      const isToday = d === today;
+      const date = new Date(d+'T00:00:00');
+      const dayNum = date.getDate();
+      const dayName = DAY_SHORT[date.getDay()];
+      return '<div class="focus-x-label'+(isToday?' today':'')+'">'
+        + dayNum+'<br>'+dayName
+      + '</div>';
+    }).join('');
+
+    // Histórico: apenas os dias com registro, ordenados do mais recente
+    const daysWithData = [...days].reverse().filter(d => totalMinForDay(d) > 0);
+
+    function fmtMin(min){
+      const m = Math.round(min);
+      if(m <= 0) return '—';
+      if(m < 60) return m + 'min';
+      const h = Math.floor(m/60), r = m%60;
+      return h + 'h' + (r > 0 ? (r < 10 ? '0' : '') + r : '');
+    }
+
+    const historyDays = daysWithData.map(d => {
+      const isToday = d === today;
+      const date    = new Date(d+'T00:00:00');
+      const label   = date.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'});
+      const dayName = DAY_SHORT[date.getDay()];
+      const total   = totalMinForDay(d);
+
+      // Chips de Pomodoro: uma por área que teve sessão neste dia
+      const pomoChips = (state.pomoTopics || [])
+        .filter(t => t.date === d && t.durationMin > 0)
+        .map(t => {
+          const a = state.areas[t.areaKey];
+          if(!a) return '';
+          return '<span class="hist-chip hist-chip--pomo" style="--chip-accent:var(--'+a.accent+')">'
+            + '<span class="hist-chip__dot">🍅</span>'
+            + '<span class="hist-chip__area">'+a.emoji+' '+a.label+'</span>'
+            + '<span class="hist-chip__hrs">'+fmtMin(t.durationMin)+'</span>'
+          + '</span>';
+        }).join('');
+
+      // Chips de horas manuais: uma por área+entrada neste dia
+      const manChips = AREA_KEYS.map(k => {
+        const a = state.areas[k];
+        if(!a.loggedDays) return '';
+        const entries = a.loggedDays.filter(e => e.date === d);
+        return entries.map(e =>
+          '<span class="hist-chip hist-chip--manual" style="--chip-accent:var(--'+a.accent+')">'
+            + '<span class="hist-chip__dot">✏️</span>'
+            + '<span class="hist-chip__area">'+a.emoji+' '+a.label+'</span>'
+            + '<span class="hist-chip__hrs">'+fmtMin(e.hours * 60)+'</span>'
+            + '<button class="hist-chip__del" data-del-manual-date="'+d+'" title="Remover">✕</button>'
+          + '</span>'
+        ).join('');
+      }).join('');
+
+      const todayClass = isToday ? ' hist-day--today' : '';
+      return '<div class="hist-day'+todayClass+'">'
+        + '<span class="hist-day__date">'+label+' <span class="hist-day__name">'+dayName+(isToday?' · hoje':'')+' </span></span>'
+        + '<div class="hist-day__chips">'+(pomoChips+manChips || '<span style="color:var(--ink-faint);font-size:12px;font-style:italic;">—</span>')+'</div>'
+        + '<span class="hist-day__total">'+fmtMin(total)+'</span>'
+      + '</div>';
+    }).join('');
+
+    const historyHTML = daysWithData.length === 0
+      ? '<p class="focus-history-empty">Nenhum registro ainda.</p>'
+      : '<div class="hist-list">'+historyDays+'</div>';
+
+    el.innerHTML =
+      '<div class="focus-chart">'
+        + '<div class="focus-chart-y">'+yLabels.join('')+'</div>'
+        + '<div class="focus-chart-body">'
+          + '<div class="focus-chart-grid">'
+            + '<div class="focus-chart-gridlines">'+gridlinesHTML+'</div>'
+            + '<div class="focus-chart-bars">'+barsHTML+'</div>'
+          + '</div>'
+          + '<div class="focus-chart-x">'+xHTML+'</div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="focus-chart-legend" style="display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;">'
+        + '<span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-soft);"><span style="width:10px;height:10px;border-radius:3px;background:var(--pdi);display:inline-block;"></span>Pomodoro</span>'
+        + '<span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-soft);"><span style="width:10px;height:10px;border-radius:3px;background:var(--border);border:1.5px solid var(--ink-faint);display:inline-block;"></span>Manual</span>'
+      + '</div>'
+      + historyHTML;
+  }
+
+  function statusOptionsHTML(current){
+    return Object.keys(STATUS).map(key=>{
+      const sel = key === current ? 'selected' : '';
+      return '<option value="'+key+'" '+sel+'>'+STATUS[key].label+'</option>';
+    }).join('');
+  }
+
+  function deadlineNote(deadline){
+    if(!deadline) return '';
+    const today = new Date(); today.setHours(0,0,0,0);
+    const d = new Date(deadline+'T00:00:00');
+    const diff = Math.round((d - today) / 86400000);
+    if(diff < 0) return '<div class="deadline-note">Prazo passou há ' + Math.abs(diff) + ' dia(s)</div>';
+    if(diff === 0) return '<div class="deadline-note">Prazo é hoje</div>';
+    return '<div class="deadline-note">Faltam ' + diff + ' dia(s)</div>';
+  }
+
+  function taskItemHTML(t){
+    const checked = taskDoneToday(t);
+    const streak = taskStreak(t);
+    const streakBadge = streak > 0 ? '<span class="task-streak" title="Sequência atual">🔥'+streak+'</span>' : '';
+    return '<li class="task-item'+(checked?' done':'')+'" data-task="'+t.id+'">'
+      + '<input type="checkbox" data-action="toggleTask" '+(checked?'checked':'')+'>'
+      + '<span>'+escapeHTML(t.text)+'</span>'
+      + streakBadge
+      + '<button class="task-del" data-action="delTask" aria-label="Remover tarefa">✕</button>'
+      + '</li>';
+  }
+
+  function dailyWeekRowHTML(key, a){
+    const dailyTasks = a.tasks.filter(isDailyTask);
+    if(dailyTasks.length === 0) return '';
+    const today = todayISO();
+    const weekDates = pomoWeekDatesSunday();
+    const cells = weekDates.map((date, i)=>{
+      const isToday = date === today;
+      const isFuture = date > today;
+      const doneCount = dailyTasks.filter(t=>(t.doneDates||[]).includes(date)).length;
+      const total = dailyTasks.length;
+      let stateClass = '';
+      if(doneCount >= total && total > 0) stateClass = ' full';
+      else if(doneCount > 0) stateClass = ' partial';
+      const dotContent = doneCount > 0 ? (doneCount === total ? '✓' : doneCount) : '';
+      return '<button type="button" class="daily-day-cell'+(isFuture?' future':'')+'" data-action="openDailyModal" data-area="'+key+'" data-date="'+date+'"'+(isFuture?' disabled':'')+' title="'+DAY_LABELS_SUN[i]+(isToday?' · hoje':'')+' · '+doneCount+'/'+total+'">'
+        + '<span class="daily-day-dot'+stateClass+(isToday?' today':'')+'">'+dotContent+'</span>'
+        + '<span class="daily-day-label'+(isToday?' today':'')+'">'+DAY_LABELS_SUN[i]+'</span>'
+      + '</button>';
+    }).join('');
+    return '<div class="daily-week-row">' + cells + '</div>';
+  }
+
+  // Grupos com listas longas de itens simples (aulas/palestras) usam um
+  // grid compacto de "chips" em vez de uma lista vertical de checkboxes.
+  const COMPACT_CHIP_GROUPS = ['Engenharia de software', 'Inglês (aulas)', 'Palestras pendentes'];
+
+  function lectureChipHTML(t){
+    const done = !!t.done;
+    return '<button type="button" class="lecture-chip'+(done?' done':'')+'" data-action="toggleLectureChip" data-task="'+t.id+'">'
+      + '<span class="lecture-chip-check">✓</span>'
+      + '<span class="lecture-chip-text">'+escapeHTML(t.text)+'</span>'
+    + '</button>';
+  }
+
+  function renderTasksBlock(key, a){
+    const doneCount = a.tasks.filter(t=>taskDoneToday(t)).length;
+    const order = [];
+    const groups = {};
+    a.tasks.forEach(t=>{
+      const g = t.group || '';
+      if(!(g in groups)){ groups[g] = []; order.push(g); }
+      groups[g].push(t);
+    });
+    const hasNamedGroups = order.some(g=>g !== '');
+    if(!a.groupCollapsed) a.groupCollapsed = {};
+
+    let listHTML = '';
+    order.forEach(g=>{
+      const items = groups[g];
+      if(hasNamedGroups){
+        const gDone = items.filter(t=>taskDoneToday(t)).length;
+        const gPct = items.length > 0 ? Math.round((gDone / items.length) * 100) : 0;
+        const isOpen = a.groupCollapsed[g] !== true; // aberto por padrão
+        const isDaily = g === DAILY_GROUP;
+        const isCompact = COMPACT_CHIP_GROUPS.includes(g);
+        const weekRow = isDaily ? dailyWeekRowHTML(key, a) : '';
+        const itemsListHTML = isDaily ? '' :
+          isCompact ? '<div class="lecture-chip-grid">' + items.map(lectureChipHTML).join('') + '</div>' :
+          '<ul class="task-list">' + items.map(taskItemHTML).join('') + '</ul>';
+        listHTML += '<details class="task-group-details" data-group-key="'+escapeHTML(g)+'" data-area-key="'+key+'"'+(isOpen?' open':'')+'>'
+          + '<summary class="task-group-summary">'
+            + '<span class="task-group-summary-left">'
+              + '<span class="task-group-chevron">▶</span>'
+              + escapeHTML(g || 'Geral')
+            + '</span>'
+            + '<span class="task-group-count">'+gDone+'/'+items.length+' · '+gPct+'%</span>'
+          + '</summary>'
+          + weekRow
+          + itemsListHTML
+        + '</details>';
+      } else {
+        listHTML += '<ul class="task-list">' + items.map(taskItemHTML).join('') + '</ul>';
+      }
+    });
+
+    const existingGroups = order.filter(g=>g !== '');
+    const datalistHTML = '<datalist id="groupsList_'+key+'">' + existingGroups.map(g=>'<option value="'+escapeHTML(g)+'">').join('') + '</datalist>';
+
+    return ''
+      + '<div class="tasks-head"><span>Checklist</span><span class="tasks-count">'+doneCount+'/'+a.tasks.length+'</span></div>'
+      + listHTML
+      + '<div class="task-add">'
+        + '<input type="text" class="task-input" placeholder="Adicionar item..." data-action="newTaskInput">'
+        + '<input type="text" class="task-group-input" list="groupsList_'+key+'" placeholder="Trilha (opcional)" data-action="newTaskGroup">'
+        + datalistHTML
+        + '<button class="task-add-btn" data-action="addTask" aria-label="Adicionar">+</button>'
+      + '</div>';
+  }
+
+  function renderPomoTopicsBlock(key, a){
+    if(!state.pomoTopics) return '';
+    const topics = state.pomoTopics
+      .filter(t => t.areaKey === key)
+      .sort((a,b) => a.date < b.date ? 1 : -1); // mais recente primeiro
+
+    const totalSessions = topics.reduce((s,t)=>s+t.sessions,0);
+    const totalMin = topics.reduce((s,t)=>s+t.durationMin,0);
+    const totalStr = totalMin >= 60
+      ? Math.floor(totalMin/60)+'h'+(totalMin%60>0?(totalMin%60<10?'0':'')+totalMin%60:'')
+      : totalMin+'min';
+
+    const itemsHTML = topics.length === 0
+      ? '<p class="pomo-topics-empty">Nenhuma sessão Pomodoro registrada esta semana.</p>'
+      : '<ul class="pomo-topic-list">' + topics.map(t=>{
+          const d = new Date(t.date+'T00:00:00');
+          const dayLabel = d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'});
+          const minStr = t.durationMin >= 60
+            ? Math.floor(t.durationMin/60)+'h'+(t.durationMin%60>0?String(t.durationMin%60).padStart(2,'0'):'')
+            : t.durationMin+'min';
+          return '<li class="pomo-topic-item" style="--accent:var(--'+a.accent+');--accent-soft:var(--'+a.accent+'-soft);--accent-line:var(--'+a.accent+'-line);">'
+            + '<div class="pomo-topic-dot"></div>'
+            + '<span class="pomo-topic-name">'+escapeHTML(dayLabel)+'</span>'
+            + '<span class="pomo-topic-meta">'+t.sessions+(t.sessions===1?' sessão':' sessões')+'&nbsp;·&nbsp;'+minStr+'</span>'
+          + '</li>';
+        }).join('') + '</ul>';
+
+    const countLabel = totalSessions > 0
+      ? totalSessions + (totalSessions===1?' sessão':' sessões') + (totalMin>0?' · '+totalStr:'')
+      : '';
+
+    return '<div class="pomo-topics-wrap">'
+      + '<div class="pomo-topics-title"><span>Estudado esta semana (Pomodoro)</span>'
+        + (countLabel ? '<span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);text-transform:none;letter-spacing:0;">'+countLabel+'</span>' : '')
+      + '</div>'
+      + itemsHTML
+    + '</div>';
+  }
+
+  function pomoHoursForArea(key){
+    if(!state.pomoTopics) return 0;
+    const totalMin = state.pomoTopics
+      .filter(t => t.areaKey === key)
+      .reduce((s,t) => s + (t.durationMin || 0), 0);
+    return Math.round(totalMin / 60 * 100) / 100;
+  }
+
+  // ---------- Quadro de objetivos do dia ----------
+  function fmtGoalMin(min){
+    const m = Math.round(min);
+    if(m < 60) return m + 'min';
+    const h = Math.floor(m/60), r = m%60;
+    return h + 'h' + (r > 0 ? String(r).padStart(2,'0') : '');
+  }
+
+  function renderDailyGoals(){
+    const list = document.getElementById('goalsList');
+    if(!list) return;
+    const goals = state.dailyGoals || [];
+    if(goals.length === 0){
+      list.innerHTML = '<li class="goals-empty">Nenhum objetivo definido. Use o ⋮ para adicionar.</li>';
+      return;
+    }
+    const today = todayISO();
+    const visibleGoals = goals.filter(g=>{
+      const a = state.areas[g.areaKey];
+      return a && a.status === 'andamento';
+    });
+    if(visibleGoals.length === 0){
+      list.innerHTML = '<li class="goals-empty">Nenhum objetivo com área em andamento.</li>';
+      return;
+    }
+    list.innerHTML = visibleGoals.map(g=>{
+      const a = state.areas[g.areaKey];
+      const done = areaMinForDay(g.areaKey, today);
+      const pct = g.minutes > 0 ? Math.min(100, Math.round((done / g.minutes) * 100)) : 0;
+      const reached = g.minutes > 0 && done >= g.minutes;
+      return '<li class="goal-item" style="--goal-accent:var(--'+a.accent+');">'
+        + '<div class="goal-item-top">'
+          + '<span class="goal-dot"></span>'
+          + '<span class="goal-label'+(reached?' done':'')+'">'+escapeHTML(g.label || a.label)+'</span>'
+          + (reached ? '<span class="goal-check">✓</span>' : '')
+          + '<span class="goal-meta">'+fmtGoalMin(done)+' / '+fmtGoalMin(g.minutes)+'</span>'
+        + '</div>'
+        + '<div class="goal-bar"><div class="goal-bar-fill" style="width:'+pct+'%"></div></div>'
+      + '</li>';
+    }).join('');
+  }
+
+  function goalsModalRenderList(){
+    const wrap = document.getElementById('goalsModalList');
+    const goals = state.dailyGoals || [];
+    if(goals.length === 0){
+      wrap.innerHTML = '<p class="goals-empty">Nenhum objetivo ainda.</p>';
+      return;
+    }
+    wrap.innerHTML = goals.map(g=>{
+      const areaOptions = AREA_KEYS.map(k=>{
+        const a = state.areas[k];
+        const sel = k === g.areaKey ? ' selected' : '';
+        return '<option value="'+k+'"'+sel+'>'+a.emoji+' '+escapeHTML(a.label)+'</option>';
+      }).join('');
+      return '<div class="goal-edit-row" data-goal-id="'+g.id+'">'
+        + '<select data-action="goalArea">'+areaOptions+'</select>'
+        + '<input type="text" data-action="goalLabel" value="'+escapeHTML(g.label||'')+'" placeholder="Rótulo">'
+        + '<input type="number" min="1" data-action="goalMinutes" value="'+g.minutes+'">'
+        + '<button class="goal-edit-del" data-action="goalDel" aria-label="Remover">✕</button>'
+      + '</div>';
+    }).join('');
+  }
+
+  function goalsModalOpen(){
+    goalsModalRenderList();
+    document.getElementById('goalsModalOverlay').classList.add('open');
+  }
+  function goalsModalClose(){
+    document.getElementById('goalsModalOverlay').classList.remove('open');
+    renderDailyGoals();
+    save();
+  }
+
+  function cardHTML(key, featured){
+    const a = state.areas[key];
+    const st = STATUS[a.status] || STATUS.nao_iniciado;
+    const pomoH = pomoHoursForArea(key);
+    const totalLogged = Math.round((a.logged + pomoH) * 100) / 100;
+    const pct = a.target > 0 ? Math.min(100, Math.round((totalLogged / a.target) * 100)) : 0;
+
+    return ''
+    + '<div class="card'+(featured?' featured':'')+'" data-area="'+key+'" style="--accent:var(--'+a.accent+'); --accent-soft:var(--'+a.accent+'-soft); --accent-line:var(--'+a.accent+'-line);">'
+      + '<div class="card-head">'
+        + '<div>'
+          + '<div class="card-title-block"><span class="card-emoji">'+a.emoji+'</span><p class="card-title">'+a.label+'</p></div>'
+          + (a.priority ? '<span class="priority-pill">🔥 Prioridade da semana</span>' : '')
+        + '</div>'
+        + '<div style="display:flex;align-items:center;gap:8px;">'
+          + '<select class="status-select" data-action="status" style="background:'+st.bg+';color:'+st.fg+';">'+statusOptionsHTML(a.status)+'</select>'
+          + '<button class="card-menu-btn" data-action="openCardModal" aria-label="Configurações">⋯</button>'
+        + '</div>'
+      + '</div>'
+      + deadlineNote(a.deadline)
+
+      + '<div class="progress-wrap">'
+        + '<div class="progress-meta"><span>Estudado essa semana</span><span><b>'+fmtHours(totalLogged)+'</b> / '+fmtHours(a.target)+' ('+pct+'%)</span></div>'
+        + '<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>'
+      + '</div>'
+
+      + renderTasksBlock(key, a)
+
+      + '<details class="notes"><summary>Notas</summary><textarea data-action="notes" placeholder="Anotações livres...">'+escapeHTML(a.notes||'')+'</textarea></details>'
+    + '</div>';
+  }
+
+  function escapeHTML(str){
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function renderAreas(){
+    document.getElementById('areaAwsSlot').innerHTML = cardHTML('aws', true);
+    const others = AREA_KEYS.filter(k => k !== 'aws');
+    document.getElementById('areasRowSlot').innerHTML = others.map(k=>cardHTML(k,false)).join('');
+  }
+
+
+  // ---------- Events ----------
+
+  // Persistir estado aberto/fechado das trilhas
+  document.addEventListener('toggle', (e)=>{
+    const det = e.target.closest('.task-group-details');
+    if(!det) return;
+    const areaKey = det.dataset.areaKey;
+    const groupKey = det.dataset.groupKey;
+    if(!areaKey || groupKey === undefined) return;
+    const a = state.areas[areaKey];
+    if(!a) return;
+    if(!a.groupCollapsed) a.groupCollapsed = {};
+    a.groupCollapsed[groupKey] = !det.open;
+    save();
+  }, true);
+
+  document.addEventListener('input', (e)=>{
+    const card = e.target.closest('.card');
+    if(!card) return;
+    const key = card.dataset.area;
+    const action = e.target.dataset.action;
+    const a = state.areas[key];
+    if(action === 'target'){ a.target = Math.max(0, parseFloat(e.target.value) || 0); renderBudget(); renderAreas(); save(); }
+    else if(action === 'logged'){ a.logged = Math.max(0, parseFloat(e.target.value) || 0); renderAreas(); save(); }
+    else if(action === 'deadline'){ a.deadline = e.target.value; renderAreas(); save(); }
+    else if(action === 'notes'){ a.notes = e.target.value; save(); }
+  });
+
+  document.addEventListener('change', (e)=>{
+    const card = e.target.closest('.card');
+    if(!card) return;
+    const key = card.dataset.area;
+    if(e.target.dataset.action === 'status'){
+      state.areas[key].status = e.target.value;
+      renderAreas(); renderDailyGoals(); save();
+    }
+    if(e.target.dataset.action === 'toggleTask'){
+      const li = e.target.closest('.task-item');
+      const taskId = li.dataset.task;
+      const task = state.areas[key].tasks.find(t=>t.id===taskId);
+      if(task){
+        if(isDailyTask(task)){
+          if(!task.doneDates) task.doneDates = [];
+          const today = todayISO();
+          const minutes = taskMinutes(task);
+          if(e.target.checked){
+            if(!task.doneDates.includes(today)){
+              task.doneDates.push(today);
+              registerFocusMinutes(key, today, minutes);
+            }
+          } else {
+            if(task.doneDates.includes(today)){
+              task.doneDates = task.doneDates.filter(d=>d!==today);
+              unregisterFocusMinutes(key, today, minutes);
+            }
+          }
+          renderBudget(); renderPomoStreak(); renderFocusChart(); renderDailyGoals();
+        } else {
+          task.done = e.target.checked;
+        }
+        renderAreas(); save();
+      }
+    }
+  });
+
+  document.addEventListener('click', (e)=>{
+    const card = e.target.closest('.card');
+    if(card){
+      const key = card.dataset.area;
+      const action = e.target.dataset.action;
+      if(action === 'openCardModal'){
+        cardModalOpen(key);
+      }
+      if(action === 'delTask'){
+        const li = e.target.closest('.task-item');
+        const taskId = li.dataset.task;
+        state.areas[key].tasks = state.areas[key].tasks.filter(t=>t.id!==taskId);
+        renderAreas(); save();
+      }
+      const dayCell = e.target.closest('.daily-day-cell');
+      if(dayCell && card.contains(dayCell) && !dayCell.disabled){
+        const date = dayCell.dataset.date;
+        if(date && date <= todayISO()) dailyModalOpen(key, date);
+      }
+      const lectureChip = e.target.closest('.lecture-chip');
+      if(lectureChip && card.contains(lectureChip)){
+        const taskId = lectureChip.dataset.task;
+        const task = state.areas[key].tasks.find(t=>t.id===taskId);
+        if(task){ task.done = !task.done; renderAreas(); save(); }
+      }
+      if(action === 'addTask'){
+        const input = card.querySelector('[data-action="newTaskInput"]');
+        const groupInput = card.querySelector('[data-action="newTaskGroup"]');
+        const text = input.value.trim();
+        const group = groupInput ? groupInput.value.trim() : '';
+        if(text){
+          const newTask = {id:uid(), text, done:false, group};
+          if(isDailyTask(newTask)) newTask.doneDates = [];
+          state.areas[key].tasks.push(newTask);
+          renderAreas(); save();
+          const newInput = card.querySelector('[data-action="newTaskInput"]');
+          if(newInput) newInput.focus();
+        }
+      }
+    }
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    const action = e.target.dataset && e.target.dataset.action;
+    if((action === 'newTaskInput' || action === 'newTaskGroup') && e.key === 'Enter'){
+      e.preventDefault();
+      const card = e.target.closest('.card');
+      const textInput = card.querySelector('[data-action="newTaskInput"]');
+      const groupInput = card.querySelector('[data-action="newTaskGroup"]');
+      const text = textInput.value.trim();
+      const group = groupInput ? groupInput.value.trim() : '';
+      if(text){
+        const key = card.dataset.area;
+        const newTask = {id:uid(), text, done:false, group};
+        if(isDailyTask(newTask)) newTask.doneDates = [];
+        state.areas[key].tasks.push(newTask);
+        renderAreas(); save();
+      }
+    }
+  });
+
+  // ---------- Eventos do Pomodoro ----------
+  document.getElementById('pomoAreaSelect').addEventListener('change', (e)=>{
+    state.pomodoro.area = e.target.value;
+    save();
+    renderPomoAccent();
+    renderPomoTimer();
+  });
+
+  document.getElementById('pomoWorkMin').addEventListener('input', (e)=>{
+    const v = Math.max(1, Math.min(120, parseInt(e.target.value,10) || 25));
+    state.pomodoro.workMin = v;
+    if(state.pomodoro.phase === 'idle' || state.pomodoro.phase === 'work'){
+      state.pomodoro.remainingSeconds = v*60;
+    }
+    save(); renderPomoSummary(); renderPomoTimer();
+  });
+  document.getElementById('pomoBreakMin').addEventListener('input', (e)=>{
+    state.pomodoro.breakMin = Math.max(1, Math.min(60, parseInt(e.target.value,10) || 5));
+    save(); renderPomoSummary();
+  });
+  document.getElementById('pomoLongBreakMin').addEventListener('input', (e)=>{
+    state.pomodoro.longBreakMin = Math.max(1, Math.min(60, parseInt(e.target.value,10) || 15));
+    save();
+  });
+  document.getElementById('pomoCyclesLong').addEventListener('input', (e)=>{
+    state.pomodoro.cyclesUntilLong = Math.max(1, Math.min(12, parseInt(e.target.value,10) || 4));
+    save(); renderPomoSummary(); renderPomoTimer();
+  });
+
+  // ---------- Modal de configurações do Pomodoro ----------
+  function pomoOpenModal(){ document.getElementById('pomoModalOverlay').classList.add('open'); }
+  function pomoCloseModal(){ document.getElementById('pomoModalOverlay').classList.remove('open'); }
+
+  document.getElementById('pomoMenuBtn').addEventListener('click', pomoOpenModal);
+  document.getElementById('pomoModalCloseBtn').addEventListener('click', pomoCloseModal);
+  document.getElementById('pomoModalDoneBtn').addEventListener('click', pomoCloseModal);
+
+  // ---------- Eventos do quadro de objetivos ----------
+  document.getElementById('goalsMenuBtn').addEventListener('click', goalsModalOpen);
+  document.getElementById('goalsModalCloseBtn').addEventListener('click', goalsModalClose);
+  document.getElementById('goalsModalDoneBtn').addEventListener('click', goalsModalClose);
+  document.getElementById('goalsModalOverlay').addEventListener('click', (e)=>{
+    if(e.target.id === 'goalsModalOverlay') goalsModalClose();
+  });
+  document.getElementById('goalsModalAddBtn').addEventListener('click', ()=>{
+    if(!state.dailyGoals) state.dailyGoals = [];
+    state.dailyGoals.push({id:uid(), areaKey:AREA_KEYS[0], label:'Novo objetivo', minutes:30});
+    goalsModalRenderList();
+  });
+  document.getElementById('goalsModalList').addEventListener('input', (e)=>{
+    const row = e.target.closest('.goal-edit-row');
+    if(!row) return;
+    const g = (state.dailyGoals||[]).find(x=>x.id===row.dataset.goalId);
+    if(!g) return;
+    const action = e.target.dataset.action;
+    if(action === 'goalLabel') g.label = e.target.value;
+    else if(action === 'goalMinutes') g.minutes = Math.max(1, parseInt(e.target.value,10) || 1);
+  });
+  document.getElementById('goalsModalList').addEventListener('change', (e)=>{
+    const row = e.target.closest('.goal-edit-row');
+    if(!row) return;
+    const g = (state.dailyGoals||[]).find(x=>x.id===row.dataset.goalId);
+    if(!g) return;
+    if(e.target.dataset.action === 'goalArea') g.areaKey = e.target.value;
+  });
+  document.getElementById('goalsModalList').addEventListener('click', (e)=>{
+    if(e.target.dataset.action !== 'goalDel') return;
+    const row = e.target.closest('.goal-edit-row');
+    if(!row) return;
+    state.dailyGoals = (state.dailyGoals||[]).filter(x=>x.id!==row.dataset.goalId);
+    goalsModalRenderList();
+  });
+  document.getElementById('pomoModalOverlay').addEventListener('click', (e)=>{
+    if(e.target.id === 'pomoModalOverlay') pomoCloseModal();
+  });
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      if(document.getElementById('newAreaModalOverlay').classList.contains('open')){ newAreaModalClose(); }
+      else if(document.getElementById('hoursModalOverlay').classList.contains('open')){ hoursModalClose(); }
+      else if(document.getElementById('cardModalOverlay').classList.contains('open')){ cardModalSave(); cardModalClose(); }
+      else pomoCloseModal();
+    }
+  });
+
+  document.getElementById('pomoToggleBtn').addEventListener('click', ()=>{
+    if(state.pomodoro.isRunning) pomoPause(); else pomoStart();
+  });
+
+  document.getElementById('pomoResetBtn').addEventListener('click', ()=>{
+    const p = state.pomodoro;
+    const hasProgress = p.isRunning || p.remainingSeconds < pomoPhaseDuration(p.phase) - 0.5;
+    if(p.phase === 'work' && hasProgress){
+      if(!confirm('Reiniciar o foco do zero? O tempo já estudado nesta etapa não será somado.')) return;
+    }
+    pomoResetPhase();
+  });
+
+  document.getElementById('pomoFinishBtn').addEventListener('click', ()=>{
+    pomoCompletePhase(false);
+  });
+
+  document.getElementById('newAreaBtn').addEventListener('click', ()=>{
+    document.getElementById('newAreaName').value = '';
+    document.getElementById('newAreaEmoji').value = '';
+    document.getElementById('newAreaTarget').value = '';
+    document.getElementById('newAreaError').style.display = 'none';
+    document.querySelector('input[name="newAreaColor"][value="aws"]').checked = true;
+    document.getElementById('newAreaModalOverlay').classList.add('open');
+    setTimeout(()=>document.getElementById('newAreaName').focus(), 50);
+  });
+
+  function newAreaModalClose(){ document.getElementById('newAreaModalOverlay').classList.remove('open'); }
+  document.getElementById('newAreaModalCloseBtn').addEventListener('click', newAreaModalClose);
+  document.getElementById('newAreaModalOverlay').addEventListener('click', (e)=>{ if(e.target.id==='newAreaModalOverlay') newAreaModalClose(); });
+
+  document.getElementById('newAreaSaveBtn').addEventListener('click', ()=>{
+    const name   = document.getElementById('newAreaName').value.trim();
+    const emoji  = document.getElementById('newAreaEmoji').value.trim() || '📚';
+    const target = parseFloat(document.getElementById('newAreaTarget').value) || 0;
+    const accent = document.querySelector('input[name="newAreaColor"]:checked').value;
+    if(!name){
+      document.getElementById('newAreaError').style.display = '';
+      return;
+    }
+    // Gera uma chave única
+    const key = 'custom_' + uid();
+    state.areas[key] = {
+      label: name, emoji, accent, priority: false,
+      status: 'nao_iniciado', target, logged: 0,
+      deadline: '', notes: '', loggedDays: [], tasks: []
+    };
+    state.days[key] = [false,false,false,false,false,false,false];
+    AREA_KEYS.push(key);
+    newAreaModalClose();
+    save();
+    renderAll();
+  });
+
+  // ---------- Modal de rotina diária ----------
+  let dailyModalKey = null;
+  let dailyModalDate = null;
+
+  function dailyModalOpen(key, date){
+    dailyModalKey = key;
+    dailyModalDate = date;
+    const a = state.areas[key];
+    const box = document.getElementById('dailyModalBox');
+    box.style.setProperty('--accent', 'var(--'+a.accent+')');
+    box.style.setProperty('--accent-soft', 'var(--'+a.accent+'-soft)');
+    box.style.setProperty('--accent-line', 'var(--'+a.accent+'-line)');
+    const isToday = date === todayISO();
+    document.getElementById('dailyModalTitle').textContent = 'Rotina diária · ' + fmtDM(date) + (isToday ? ' (hoje)' : '');
+    dailyModalRenderList();
+    document.getElementById('dailyModalOverlay').classList.add('open');
+  }
+
+  function dailyModalRenderList(){
+    if(!dailyModalKey) return;
+    const a = state.areas[dailyModalKey];
+    const dailyTasks = a.tasks.filter(isDailyTask);
+    const list = document.getElementById('dailyModalList');
+    list.innerHTML = dailyTasks.map(t=>{
+      const checked = (t.doneDates||[]).includes(dailyModalDate);
+      return '<li class="task-item'+(checked?' done':'')+'" data-task="'+t.id+'">'
+        + '<input type="checkbox" data-action="dailyModalToggle" '+(checked?'checked':'')+'>'
+        + '<span>'+escapeHTML(t.text)+'</span>'
+        + '<button class="task-del" data-action="dailyModalDelTask" aria-label="Remover tarefa">✕</button>'
+      + '</li>';
+    }).join('');
+    if(dailyTasks.length === 0){
+      list.innerHTML = '<p style="font-size:12.5px;color:var(--ink-faint);font-style:italic;">Nenhum item na rotina diária ainda.</p>';
+    }
+  }
+
+  function dailyModalClose(){
+    document.getElementById('dailyModalOverlay').classList.remove('open');
+    dailyModalKey = null;
+    dailyModalDate = null;
+    renderAreas();
+  }
+
+  document.getElementById('dailyModalCloseBtn').addEventListener('click', dailyModalClose);
+  document.getElementById('dailyModalDoneBtn').addEventListener('click', dailyModalClose);
+  document.getElementById('dailyModalOverlay').addEventListener('click', (e)=>{
+    if(e.target.id === 'dailyModalOverlay') dailyModalClose();
+  });
+  document.getElementById('dailyModalList').addEventListener('click', (e)=>{
+    if(e.target.dataset.action !== 'dailyModalDelTask') return;
+    if(!dailyModalKey) return;
+    const li = e.target.closest('.task-item');
+    const taskId = li.dataset.task;
+    const task = state.areas[dailyModalKey].tasks.find(t=>t.id===taskId);
+    if(task){
+      const minutes = taskMinutes(task);
+      (task.doneDates||[]).forEach(d=>unregisterFocusMinutes(dailyModalKey, d, minutes));
+    }
+    state.areas[dailyModalKey].tasks = state.areas[dailyModalKey].tasks.filter(t=>t.id!==taskId);
+    dailyModalRenderList();
+    renderBudget();
+    renderPomoStreak();
+    renderFocusChart();
+    renderDailyGoals();
+    save();
+  });
+  document.getElementById('dailyModalList').addEventListener('change', (e)=>{
+    if(e.target.dataset.action !== 'dailyModalToggle') return;
+    if(!dailyModalKey || !dailyModalDate) return;
+    const li = e.target.closest('.task-item');
+    const taskId = li.dataset.task;
+    const task = state.areas[dailyModalKey].tasks.find(t=>t.id===taskId);
+    if(!task) return;
+    if(!task.doneDates) task.doneDates = [];
+    const minutes = taskMinutes(task);
+    if(e.target.checked){
+      if(!task.doneDates.includes(dailyModalDate)){
+        task.doneDates.push(dailyModalDate);
+        registerFocusMinutes(dailyModalKey, dailyModalDate, minutes);
+      }
+    } else {
+      if(task.doneDates.includes(dailyModalDate)){
+        task.doneDates = task.doneDates.filter(d=>d!==dailyModalDate);
+        unregisterFocusMinutes(dailyModalKey, dailyModalDate, minutes);
+      }
+    }
+    li.classList.toggle('done', e.target.checked);
+    renderBudget();
+    renderAreas();
+    renderPomoStreak();
+    renderFocusChart();
+    renderDailyGoals();
+    save();
+  });
+
+  // ---------- Modal de configurações do card ----------
+  let cardModalKey = null;
+
+  function cardModalOpen(key){
+    cardModalKey = key;
+    const a = state.areas[key];
+    document.getElementById('cardModalTitle').textContent = a.emoji + ' ' + a.label;
+    document.getElementById('cardModalTarget').value = a.target;
+    document.getElementById('cardModalDeadline').value = a.deadline || '';
+    if(!a.loggedDays) a.loggedDays = [];
+    // toggle prioridade
+    const btn = document.getElementById('cardModalPriorityBtn');
+    btn.setAttribute('aria-pressed', a.priority ? 'true' : 'false');
+    cardModalUpdateDeadlineNote();
+    const box = document.getElementById('cardModalBox');
+    box.style.setProperty('--accent', 'var(--'+a.accent+')');
+    box.style.setProperty('--accent-soft', 'var(--'+a.accent+'-soft)');
+    box.style.setProperty('--accent-line', 'var(--'+a.accent+'-line)');
+    document.getElementById('cardModalOverlay').classList.add('open');
+    setTimeout(()=>document.getElementById('cardModalTarget').focus(), 50);
+  }
+
+  function cardModalClose(){
+    document.getElementById('cardModalOverlay').classList.remove('open');
+    cardModalKey = null;
+  }
+
+  function cardModalUpdateDeadlineNote(){
+    const dl = document.getElementById('cardModalDeadline').value;
+    document.getElementById('cardModalDeadlineNote').innerHTML = deadlineNote(dl);
+  }
+
+  function cardModalSave(){
+    if(!cardModalKey) return;
+    const a = state.areas[cardModalKey];
+    a.target   = Math.max(0, parseFloat(document.getElementById('cardModalTarget').value) || 0);
+    a.deadline = document.getElementById('cardModalDeadline').value;
+    a.priority = document.getElementById('cardModalPriorityBtn').getAttribute('aria-pressed') === 'true';
+    if(!a.loggedDays) a.loggedDays = [];
+    a.logged = a.loggedDays.reduce((s,e)=>s+e.hours, 0);
+    renderBudget(); renderAreas(); save();
+  }
+
+  document.getElementById('cardModalCloseBtn').addEventListener('click', cardModalClose);
+  document.getElementById('cardModalDoneBtn').addEventListener('click', ()=>{ cardModalSave(); cardModalClose(); });
+  document.getElementById('cardModalOverlay').addEventListener('click', (e)=>{
+    if(e.target.id === 'cardModalOverlay'){ cardModalSave(); cardModalClose(); }
+  });
+  document.getElementById('cardModalTarget').addEventListener('input', cardModalSave);
+  document.getElementById('cardModalDeadline').addEventListener('input', ()=>{ cardModalUpdateDeadlineNote(); cardModalSave(); });
+  document.getElementById('cardModalPriorityBtn').addEventListener('click', ()=>{
+    const btn = document.getElementById('cardModalPriorityBtn');
+    const pressed = btn.getAttribute('aria-pressed') === 'true';
+    btn.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+    cardModalSave();
+  });
+
+  // ---------- Modal de registro de horas ----------
+  let hoursModalKey = null;
+
+  function hoursModalRenderLog_UNUSED(){
+    const a = state.areas[hoursModalKey];
+    const list = document.getElementById('hoursModalLogList');
+    const empty = document.getElementById('hoursModalLogEmpty');
+    const days = a.loggedDays || [];
+    if(days.length === 0){
+      list.innerHTML = '';
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+      const sorted = [...days].sort((x,y)=>y.date.localeCompare(x.date));
+      list.innerHTML = sorted.map(entry=>{
+        const d = new Date(entry.date+'T00:00:00');
+        const label = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'});
+        return `<li class="hours-log-item">
+          <span class="log-date">${label}</span>
+          <span class="log-hours">${fmtHours(entry.hours)}</span>
+          <button class="hours-log-del" data-log-del="${entry.id}" title="Remover">✕</button>
+        </li>`;
+      }).join('');
+    }
+  }
+
+  function hoursModalAddEntry(){
+    // Lê a área selecionada no momento do clique (não depende de hoursModalKey em cache)
+    const selEl = document.getElementById('hoursModalAreaSelect');
+    const areaKey = selEl ? selEl.value : hoursModalKey;
+    if(!areaKey) return;
+    const dateVal = document.getElementById('hoursModalDate').value;
+    const hoursVal = parseFloat(document.getElementById('hoursModalHours').value);
+    if(!dateVal || !hoursVal || hoursVal <= 0) return;
+    const a = state.areas[areaKey];
+    if(!a.loggedDays) a.loggedDays = [];
+    const existing = a.loggedDays.find(e=>e.date === dateVal);
+    if(existing){
+      existing.hours = Math.round((existing.hours + hoursVal)*100)/100;
+    } else {
+      a.loggedDays.push({id:uid(), date:dateVal, hours:hoursVal});
+    }
+    a.logged = a.loggedDays.reduce((s,e)=>s+e.hours, 0);
+    document.getElementById('hoursModalHours').value = '';
+    renderBudget(); renderAreas(); renderFocusChart(); renderDailyGoals(); save();
+  }
+
+  document.getElementById('openHoursModalBtn').addEventListener('click', ()=>{
+    hoursModalKey = AREA_KEYS[0];
+    const sel = document.getElementById('hoursModalAreaSelect');
+    sel.innerHTML = AREA_KEYS.map(k=>{
+      const a = state.areas[k];
+      return `<option value="${k}">${a.emoji} ${a.label}</option>`;
+    }).join('');
+    document.getElementById('hoursModalDate').value = todayISO();
+    document.getElementById('hoursModalHours').value = '';
+    AREA_KEYS.forEach(k=>{ if(!state.areas[k].loggedDays) state.areas[k].loggedDays = []; });
+    document.getElementById('hoursModalOverlay').classList.add('open');
+    setTimeout(()=>document.getElementById('hoursModalHours').focus(), 50);
+  });
+
+  document.getElementById('hoursModalAreaSelect').addEventListener('change', (e)=>{
+    hoursModalKey = e.target.value;
+  });
+
+  function hoursModalClose(){ document.getElementById('hoursModalOverlay').classList.remove('open'); hoursModalKey = null; }
+  document.getElementById('hoursModalCloseBtn').addEventListener('click', hoursModalClose);
+  document.getElementById('hoursModalDoneBtn').addEventListener('click', ()=>{
+    const hoursVal = parseFloat(document.getElementById('hoursModalHours').value);
+    if(hoursVal > 0) hoursModalAddEntry();
+    hoursModalClose();
+  });
+  document.getElementById('hoursModalOverlay').addEventListener('click', (e)=>{ if(e.target.id==='hoursModalOverlay') hoursModalClose(); });
+  document.getElementById('hoursModalAddBtn').addEventListener('click', hoursModalAddEntry);
+  document.getElementById('hoursModalHours').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); hoursModalAddEntry(); } });
+
+  // Deletar horas manuais direto da tabela do histórico
+  document.getElementById('focusChartWrap').addEventListener('click', (e)=>{
+    const btn = e.target.closest('[data-del-manual-date]');
+    if(!btn) return;
+    const dateISO = btn.dataset.delManualDate;
+    AREA_KEYS.forEach(k=>{
+      const a = state.areas[k];
+      if(!a.loggedDays) return;
+      a.loggedDays = a.loggedDays.filter(entry => entry.date !== dateISO);
+      a.logged = a.loggedDays.reduce((s,entry)=>s+entry.hours, 0);
+    });
+    renderBudget(); renderAreas(); renderFocusChart(); renderDailyGoals(); save();
+  });
+
+  // ---------- Modal de sincronização ----------
+  document.getElementById('syncModalCloseBtn').addEventListener('click', closeSyncModal);
+  document.getElementById('syncModalSaveBtn').addEventListener('click', saveGhTokenFromModal);
+  document.getElementById('syncModalOverlay').addEventListener('click', (e)=>{
+    if(e.target.id === 'syncModalOverlay') closeSyncModal();
+  });
+
+  renderAll();
+
+  if(state.pomodoro.isRunning){
+    pomoStartTicking();
+    pomoTick();
+  }
+
+  /* Ao abrir: renderiza instantâneo com cache local, depois busca a versão
+     mais recente no GitHub (funciona sem token; token só é necessário pra salvar). */
+  if(!getGhToken()) setSyncStatus('offline', 'Somente leitura (sem token)');
+  pullFromGitHub(false);
+})();
+</script>
+</body>
+</html>
