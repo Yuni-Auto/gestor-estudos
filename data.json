@@ -149,7 +149,7 @@
           {
             "id": "oq8cdm8",
             "text": "Módulo 2: Economia e faturamento da nuvem",
-            "done": true,
+            "done": false,
             "group": "Cloud Foundations"
           },
           {
@@ -591,7 +591,7 @@
         "priority": false,
         "status": "andamento",
         "target": 7.5,
-        "logged": 0.7969999999999999,
+        "logged": 1.047,
         "deadline": "",
         "notes": "Plano de estudos B2.",
         "tasks": [
@@ -616,7 +616,9 @@
             "text": "15 min • Estudar gramática e vocabulário (Neither / so do I)",
             "done": false,
             "group": "Rotina diária",
-            "doneDates": []
+            "doneDates": [
+              "2026-07-14"
+            ]
           },
           {
             "id": "fp8xcr7",
@@ -984,7 +986,7 @@
           {
             "id": "mrag0pg",
             "date": "2026-07-14",
-            "hours": 0.083
+            "hours": 0.333
           }
         ],
         "groupCollapsed": {
@@ -1061,5 +1063,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-14T21:51:01.904Z"
+  "_updatedAt": "2026-07-14T21:51:09.707Z"
 }
