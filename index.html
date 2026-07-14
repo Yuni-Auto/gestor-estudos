@@ -1356,7 +1356,9 @@ label:'Inglês', emoji:'🗣️', accent:'eng', priority:false,status:'andamento
       const hasLocalData = state && state.areas && Object.keys(state.areas).length > 0;
       const localTs = getLocalTimestamp();
       const remoteTs = data._updatedAt;
-      const remoteIsNewer = remoteTs && localTs && new Date(remoteTs) > new Date(localTs);
+      // Se este aparelho nunca sincronizou antes (sem localTs), não há dado local
+      // "de verdade" pra proteger — aceita os dados da nuvem nesse caso.
+      const remoteIsNewer = !localTs || (remoteTs && new Date(remoteTs) > new Date(localTs));
 
       if(hasLocalData && !remoteIsNewer){
         if(!localTs) touchLocalTimestamp();
