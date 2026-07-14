@@ -873,6 +873,7 @@
       <button class="btn-ghost" style="background:var(--surface);color:var(--ink);border:1px solid var(--border);" onclick="clearGhTokenFromModal()">Remover token</button>
       <div style="display:flex;gap:8px;">
         <button class="btn-ghost" style="background:var(--surface);color:var(--ink);border:1px solid var(--border);" onclick="manualSyncNow()">Sincronizar agora</button>
+        <button class="btn-ghost" style="background:var(--surface);color:#B2630A;border:1px solid var(--border);" onclick="forcePushLocalNow()" title="Envia os dados deste navegador pra nuvem, substituindo o que estiver lá">📤 Forçar envio local</button>
         <button class="btn-ghost" id="syncModalSaveBtn">Salvar</button>
       </div>
     </div>
@@ -1456,6 +1457,18 @@ label:'Inglês', emoji:'🗣️', accent:'eng', priority:false,status:'andamento
     setSyncStatus('offline', 'Somente leitura (sem token)');
   }
   function manualSyncNow(){ pullFromGitHub(false); }
+
+  /* Ignora o que está na nuvem e sobrescreve com os dados DESTE navegador.
+     Útil quando a nuvem ficou com um estado zerado/errado (ex: sync feito
+     a partir de um navegador sem dados locais) e precisa ser corrigido. */
+  function forcePushLocalNow(){
+    if(!getGhToken()){ alert('Configure um token com permissão de escrita antes de forçar o envio.'); return; }
+    const ok = confirm('Isso vai SUBSTITUIR o data.json da nuvem pelos dados deste navegador, mesmo que a nuvem tenha algo diferente.\n\nUse isso só se tiver certeza de que os dados aqui no navegador estão certos.\n\nContinuar?');
+    if(!ok) return;
+    touchLocalTimestamp();
+    pushToGitHub();
+  }
+  window.forcePushLocalNow = forcePushLocalNow;
   window.openSyncModal = openSyncModal;
   window.exportLocalBackup = exportLocalBackup;
   window.importLocalBackup = importLocalBackup;
