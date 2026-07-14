@@ -19,25 +19,25 @@
     "pomoTopics": [],
     "dailyGoals": [
       {
-        "id": "ongjmhn",
+        "id": "agqzb1w",
         "areaKey": "pdi",
         "label": "Estudo do PDI",
         "minutes": 60
       },
       {
-        "id": "wtbp5bb",
+        "id": "u4olh07",
         "areaKey": "ingles",
         "label": "Duolingo",
         "minutes": 5
       },
       {
-        "id": "8mj6vab",
+        "id": "jmzzohf",
         "areaKey": "mba",
         "label": "TCC",
         "minutes": 30
       },
       {
-        "id": "xnyqvda",
+        "id": "qqdg8m2",
         "areaKey": "aws",
         "label": "Certificação",
         "minutes": 60
@@ -57,121 +57,121 @@
         "loggedDays": [],
         "tasks": [
           {
-            "id": "14t5u5k",
+            "id": "icxtd5a",
             "text": "Módulo 1: Boas-vindas ao curso",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "hwokcb6",
+            "id": "6k9sfkk",
             "text": "Módulo 2: Introdução à IA",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "jxytfcy",
+            "id": "e9d07zh",
             "text": "Módulo 3: Introdução à IA generativa",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "03usdzf",
+            "id": "k4ep1vf",
             "text": "Módulo 4: Uso de prompts e engenharia de prompts",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "onkz4me",
+            "id": "0m24k1f",
             "text": "Módulo 5: Uso de modelos de base",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "f7o0ks5",
+            "id": "llzjbdw",
             "text": "Módulo 6: Prática responsável de IA generativa",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "3wgvvp8",
+            "id": "rl4k5dj",
             "text": "Módulo 7: Segurança, governança e conformidade",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "r2pmv17",
+            "id": "yq3fpg5",
             "text": "Módulo 8: Implementação de aplicações de IA generativa",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "dh68691",
+            "id": "sz8kddi",
             "text": "Módulo 9: Avaliação de conclusão e certificado",
             "done": false,
             "group": "Generative AI Foundations"
           },
           {
-            "id": "4nb2viw",
+            "id": "vg774wh",
             "text": "Módulo 1: Visão geral dos conceitos de nuvem",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "1nvnxfq",
+            "id": "49fhrkb",
             "text": "Módulo 2: Economia e faturamento da nuvem",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "jri3i0a",
+            "id": "faf6dwf",
             "text": "Módulo 3: Infraestrutura global da AWS",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "hr8uq89",
+            "id": "zxr1v64",
             "text": "Módulo 4: Segurança na nuvem AWS",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "kc0vkcw",
+            "id": "hg4pqng",
             "text": "Módulo 5: Redes e entrega de conteúdo",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "fxyu7xn",
+            "id": "qvhy2ge",
             "text": "Módulo 6: Computação",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "j42wf6d",
+            "id": "c6foc30",
             "text": "Módulo 7: Armazenamento",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "zbajn4a",
+            "id": "u77gsoj",
             "text": "Módulo 8: Bancos de dados",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "b1jad75",
+            "id": "t45niaf",
             "text": "Módulo 9: Arquitetura de nuvem",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "0yaeka2",
+            "id": "08s88ph",
             "text": "Módulo 10: Auto Scaling e monitoramento",
             "done": false,
             "group": "Cloud Foundations"
           },
           {
-            "id": "kl61mxj",
+            "id": "912mqyr",
             "text": "Avaliação final do curso e certificado",
             "done": false,
             "group": "Cloud Foundations"
@@ -195,97 +195,97 @@
         "loggedDays": [],
         "tasks": [
           {
-            "id": "mbzx7ja",
+            "id": "8ab5m5o",
             "text": "Learn JS Basics with 30 Qs (30d)",
             "done": false,
             "group": "Lógica de programação"
           },
           {
-            "id": "se06ofe",
+            "id": "2umxnc3",
             "text": "Condicional",
             "done": true,
             "group": "Javascript"
           },
           {
-            "id": "7k0js88",
+            "id": "om333k8",
             "text": "Laços e repetição",
             "done": true,
             "group": "Javascript"
           },
           {
-            "id": "daxgsin",
+            "id": "zvxfx32",
             "text": "Funções",
             "done": true,
             "group": "Javascript"
           },
           {
-            "id": "1woca84",
+            "id": "wyss5pi",
             "text": "Arrays",
             "done": true,
             "group": "Javascript"
           },
           {
-            "id": "b6jkzgf",
+            "id": "96qmmgv",
             "text": "Objetos",
             "done": true,
             "group": "Javascript"
           },
           {
-            "id": "rk9c4xx",
+            "id": "fvtye92",
             "text": "Javascript: Manipulando objetos",
             "done": true,
             "group": "Javascript Avançado"
           },
           {
-            "id": "2fzj2iw",
+            "id": "kx35kwh",
             "text": "Primeiro app",
             "done": true,
             "group": "Java Back-end"
           },
           {
-            "id": "o98mf51",
+            "id": "hhbn28z",
             "text": "Orientação a objetos",
             "done": true,
             "group": "Java Back-end"
           },
           {
-            "id": "xgasn4x",
+            "id": "561pd9m",
             "text": "Listas e coleções",
             "done": true,
             "group": "Java Back-end"
           },
           {
-            "id": "70ubdwi",
+            "id": "ln5fxcz",
             "text": "Java execuções",
             "done": false,
             "group": "Java Back-end"
           },
           {
-            "id": "ocr6znd",
+            "id": "ba0qi0l",
             "text": "MongoDB",
             "done": false,
             "group": "Java Back-end"
           },
           {
-            "id": "h7smh39",
+            "id": "m5sbz1f",
             "text": "SQL",
             "done": false,
             "group": "Java Back-end"
           },
           {
-            "id": "qeti0os",
+            "id": "i6w4pv8",
             "text": "NoSQL",
             "done": false,
             "group": "Java Back-end"
           },
           {
-            "id": "p8tqath",
+            "id": "r8ktqbp",
             "text": "Treinamento ArgoCD",
             "done": false,
             "group": "Ferramentas"
           },
           {
-            "id": "4lxs181",
+            "id": "39c5o81",
             "text": "Dynatrace",
             "done": false,
             "group": "Ferramentas"
@@ -312,217 +312,217 @@
         "notes": "Próxima etapa: iniciar o Trabalho Final e incorporar o feedback dos Resultados Preliminares.",
         "tasks": [
           {
-            "id": "7br9r27",
+            "id": "akqp6gi",
             "text": "Fase 1 • Vídeos",
             "done": true,
             "group": "Etapas do TCC"
           },
           {
-            "id": "y5xcw4s",
+            "id": "vmtohuc",
             "text": "Fase 2 • Questionário",
             "done": true,
             "group": "Etapas do TCC"
           },
           {
-            "id": "usxu549",
+            "id": "vk3lyvd",
             "text": "Fase 3 • Projeto",
             "done": true,
             "group": "Etapas do TCC"
           },
           {
-            "id": "j6yr6hs",
+            "id": "a6adq6r",
             "text": "Fase 4 • Resultados preliminares",
             "done": true,
             "group": "Etapas do TCC"
           },
           {
-            "id": "t7knnzy",
+            "id": "uytfyjg",
             "text": "Fase 5 • Trabalho Final",
             "done": false,
             "group": "Etapas do TCC"
           },
           {
-            "id": "5yzdudt",
+            "id": "9jlnonk",
             "text": "Fase 6 • Slides",
             "done": false,
             "group": "Etapas do TCC"
           },
           {
-            "id": "3mvqbmk",
+            "id": "e02j9sa",
             "text": "Fase 7 • Versão revisada do Trabalho Final",
             "done": false,
             "group": "Etapas do TCC"
           },
           {
-            "id": "xxurlne",
+            "id": "9zpabmk",
             "text": "Liderança em projetos de tecnologia 2",
             "done": false,
             "group": "Engenharia de software"
           },
           {
-            "id": "emzbrfm",
+            "id": "5oqvm90",
             "text": "Blockchain e cripto 1",
             "done": false,
             "group": "Engenharia de software"
           },
           {
-            "id": "he0bg0c",
+            "id": "kb3xvp9",
             "text": "Blockchain e cripto 2",
             "done": false,
             "group": "Engenharia de software"
           },
           {
-            "id": "t66d26y",
+            "id": "v2i54i7",
             "text": "Paradigmas de Desenvolvimento 1",
             "done": false,
             "group": "Engenharia de software"
           },
           {
-            "id": "8sz0d7l",
+            "id": "a5mg5gi",
             "text": "Paradigmas de Desenvolvimento 2",
             "done": false,
             "group": "Engenharia de software"
           },
           {
-            "id": "hz9zffv",
+            "id": "jes486i",
             "text": "Padrões de projetos",
             "done": false,
             "group": "Engenharia de software"
           },
           {
-            "id": "2f3cg32",
+            "id": "vhtpx1z",
             "text": "English in Science 2",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "56u5d02",
+            "id": "c512xh0",
             "text": "Academic English",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "aho8qe2",
+            "id": "kd27mch",
             "text": "What is reading?",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "fpfyhiw",
+            "id": "tgm3d7v",
             "text": "What is listening?",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "1d0rwzm",
+            "id": "ggwk0cf",
             "text": "Integrating and listening abilities",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "x2v12kp",
+            "id": "twkqlqy",
             "text": "Plantão de dúvidas 1",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "453x86x",
+            "id": "sbaekqa",
             "text": "Plantão de dúvidas 2",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "ertd6jh",
+            "id": "fdbl0a9",
             "text": "Plantão de dúvidas 3a",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "w96lz61",
+            "id": "eq7b1sr",
             "text": "Plantão de dúvidas 4",
             "done": false,
             "group": "Inglês (aulas)"
           },
           {
-            "id": "a7rzhpk",
+            "id": "yol3ots",
             "text": "Chamada de um sucesso",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "j9v84tc",
+            "id": "hlq9llb",
             "text": "Europa em Foco",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "pcjdovn",
+            "id": "k65er8c",
             "text": "Gestão de equipes de alta performance",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "qmdzggc",
+            "id": "neu63lp",
             "text": "Unified Experience",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "y8en3o0",
+            "id": "6v75vwi",
             "text": "Insights do Palco",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "hbrv97r",
+            "id": "1ptyvw1",
             "text": "Como a IA está",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "8wulda0",
+            "id": "lvref8v",
             "text": "Idade não define talento",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "xy4v220",
+            "id": "2tjfycl",
             "text": "Carreira executiva",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "ydcews4",
+            "id": "tfx4ix8",
             "text": "Reforma tributária",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "wo8odjv",
+            "id": "2pxfl01",
             "text": "IA estratégica",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "prxjkr6",
+            "id": "b5i54o8",
             "text": "Internacionalização de negócios",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "wbkhjp8",
+            "id": "x35js5k",
             "text": "A vantagem competitiva",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "9izsw9m",
+            "id": "b8jcmej",
             "text": "Faça sua marca",
             "done": false,
             "group": "Palestras pendentes"
           },
           {
-            "id": "qu2egl9",
+            "id": "kptvo1h",
             "text": "Entrevista sem mistério",
             "done": false,
             "group": "Palestras pendentes"
@@ -548,339 +548,339 @@
         "loggedDays": [],
         "tasks": [
           {
-            "id": "tmeffzd",
+            "id": "v9deods",
             "text": "5 min • Duolingo",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "qlkvajf",
+            "id": "pm1fbn7",
             "text": "15 min • Estudar gramática e vocabulário (Neither / so do I)",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "4fb4prd",
+            "id": "a3iusys",
             "text": "8 min • Exercícios de compreensão e gramática",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "aauex90",
+            "id": "czcrqtl",
             "text": "5 min • Routine",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "de5whxi",
+            "id": "8h1vs2a",
             "text": "5 min • Ler a transcrição do vídeo",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "u6nuru9",
+            "id": "ve0nnb3",
             "text": "5 min • Ouvir um vídeo curto",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "zrrbft5",
+            "id": "0dxkme1",
             "text": "7 min • Revisar anotações",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "bk7ok6q",
+            "id": "skeyf8n",
             "text": "15 min • Ler notícias ou um capítulo",
             "done": false,
             "doneDates": [],
             "group": "Rotina diária"
           },
           {
-            "id": "r3yb5mp",
+            "id": "dsx5wrc",
             "text": "Used to + infinitive",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "l27eu60",
+            "id": "ihw3z1e",
             "text": "Past Simple and Present Perfect",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "whtb610",
+            "id": "d2pwhul",
             "text": "Neither / so do I",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "37cbmej",
+            "id": "02zxzvi",
             "text": "Modal verbs",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "ag04orj",
+            "id": "h50tr7i",
             "text": "Reported speech",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "asqb3vk",
+            "id": "kbcva0z",
             "text": "First conditional",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "e7drn6e",
+            "id": "0qv9jnv",
             "text": "Second conditional",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "ksp48rp",
+            "id": "ditvd97",
             "text": "Present Perfect Continuous",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "gdmom1x",
+            "id": "r2srj0p",
             "text": "Past Perfect",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "n1pzult",
+            "id": "3pubr3x",
             "text": "Question tags",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "srwj7pm",
+            "id": "eryiam1",
             "text": "Future Perfect",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "9it2qq5",
+            "id": "v2nxpwa",
             "text": "Past Perfect Continuous",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "fhvrt43",
+            "id": "vdyaas6",
             "text": "Present Passive",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "e9lmxhk",
+            "id": "ku8x4da",
             "text": "Past Passive",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "n7mjsuj",
+            "id": "wotbp8q",
             "text": "Future Passive",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "n1bd9yn",
+            "id": "nfm6pqj",
             "text": "Look + adjective",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "p578ltc",
+            "id": "dn15w34",
             "text": "Be able to",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "83od5s4",
+            "id": "ltaa2sz",
             "text": "Have and have got",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "894kok3",
+            "id": "uk2fs1r",
             "text": "Be allowed to",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "hk7brl5",
+            "id": "8b6ai3y",
             "text": "A few / A little",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "fl3dwqx",
+            "id": "hs6tiyp",
             "text": "Although / Despite",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "57uf010",
+            "id": "ckom6hv",
             "text": "Adjective connotations",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "f6b3lzc",
+            "id": "gcp6808",
             "text": "Modifiers",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "e2q7agu",
+            "id": "p8tlpv9",
             "text": "Adverbs of manner",
             "done": false,
             "group": "Gramática B2"
           },
           {
-            "id": "dwqff46",
+            "id": "pyn86vj",
             "text": "Appearances",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "0xacl25",
+            "id": "8oxs9j8",
             "text": "Character",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "7212j3e",
+            "id": "k1d8ep8",
             "text": "Make and do",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "14v77py",
+            "id": "zrqczko",
             "text": "Housework",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "v8947dq",
+            "id": "l2rc4r0",
             "text": "Holidays",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "70lnqn6",
+            "id": "7pdqzab",
             "text": "Illness",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "3dn7kyq",
+            "id": "alqk6cj",
             "text": "Cooking",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "foqqhl9",
+            "id": "yottvwd",
             "text": "Furniture",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "p7pa51j",
+            "id": "w3z4rdq",
             "text": "Books, films and TV",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "ym8ome5",
+            "id": "zrfo5mz",
             "text": "Crime",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "nboxltc",
+            "id": "ws05fu1",
             "text": "Political systems",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "hb6o05c",
+            "id": "jd3ywdp",
             "text": "Family relationships",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "tmj95ez",
+            "id": "j9d6j06",
             "text": "Pets",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "pxre0jk",
+            "id": "jjcrf27",
             "text": "Consumer services",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "0d1vvcd",
+            "id": "1nh4ken",
             "text": "Hotel facilities",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "plnzz21",
+            "id": "zf8o5wp",
             "text": "Affixes",
             "done": false,
             "group": "Vocabulário B2"
           },
           {
-            "id": "bb6qmh1",
+            "id": "slgquaz",
             "text": "Describing People, Places and Things",
             "done": false,
             "group": "Tópicos B2"
           },
           {
-            "id": "v447533",
+            "id": "bexohug",
             "text": "Stating preferences and opinions",
             "done": false,
             "group": "Tópicos B2"
           },
           {
-            "id": "63uxmha",
+            "id": "fv4jzxh",
             "text": "Reporting requests and orders",
             "done": false,
             "group": "Tópicos B2"
           },
           {
-            "id": "hcb7y7w",
+            "id": "5pdz3ma",
             "text": "Guessing",
             "done": false,
             "group": "Tópicos B2"
           },
           {
-            "id": "1z82pz3",
+            "id": "if2pcrv",
             "text": "Talking about possibility",
             "done": false,
             "group": "Tópicos B2"
           },
           {
-            "id": "os68o8e",
+            "id": "zrlsqya",
             "text": "Describing faulty goods",
             "done": false,
             "group": "Tópicos B2"
           },
           {
-            "id": "ofgzdhl",
+            "id": "w20mqkz",
             "text": "Refusing",
             "done": false,
             "group": "Tópicos B2"
@@ -934,5 +934,5 @@
     },
     "history": []
   },
-  "_updatedAt": "2026-07-14T20:47:50.420Z"
+  "_updatedAt": "2026-07-14T20:48:46.648Z"
 }
