@@ -149,7 +149,7 @@
           {
             "id": "oq8cdm8",
             "text": "Módulo 2: Economia e faturamento da nuvem",
-            "done": true,
+            "done": false,
             "group": "Cloud Foundations"
           },
           {
@@ -1063,5 +1063,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-14T21:10:26.109Z"
+  "_updatedAt": "2026-07-14T21:10:30.874Z"
 }
