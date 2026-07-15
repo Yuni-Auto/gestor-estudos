@@ -3,13 +3,13 @@
     "weekStart": "2026-06-28",
     "pomodoro": {
       "area": "mba",
-      "workMin": 5,
+      "workMin": 50,
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
       "phase": "work",
       "isRunning": false,
-      "remainingSeconds": 300,
+      "remainingSeconds": 3000,
       "endAt": null,
       "cycleCount": 11,
       "sessionsToday": 0,
@@ -1061,5 +1061,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-15T00:51:30.774Z"
+  "_updatedAt": "2026-07-15T00:51:36.089Z"
 }
