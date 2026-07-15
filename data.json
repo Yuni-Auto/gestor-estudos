@@ -8,11 +8,11 @@
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
       "phase": "work",
-      "isRunning": true,
-      "remainingSeconds": 1755.007,
-      "endAt": 1784080291786,
-      "cycleCount": 11,
-      "sessionsToday": 0,
+      "isRunning": false,
+      "remainingSeconds": 3000,
+      "endAt": null,
+      "cycleCount": 12,
+      "sessionsToday": 1,
       "lastSessionDate": "2026-07-14"
     },
     "pomodoroDays": {
@@ -35,6 +35,10 @@
       "2026-07-12": {
         "count": 2,
         "min": 14
+      },
+      "2026-07-14": {
+        "count": 1,
+        "min": 22
       }
     },
     "pomoTopics": [
@@ -72,6 +76,13 @@
         "date": "2026-07-12",
         "sessions": 2,
         "durationMin": 14
+      },
+      {
+        "id": "1pkacpw",
+        "areaKey": "mba",
+        "date": "2026-07-14",
+        "sessions": 1,
+        "durationMin": 22
       }
     ],
     "areas": {
@@ -1061,5 +1072,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-15T01:22:19.281Z"
+  "_updatedAt": "2026-07-15T01:23:45.981Z"
 }
