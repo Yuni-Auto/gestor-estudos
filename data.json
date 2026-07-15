@@ -440,7 +440,7 @@
           {
             "id": "z41zn99",
             "text": "Padrões de projetos",
-            "done": false,
+            "done": true,
             "group": "Engenharia de software"
           },
           {
@@ -1079,5 +1079,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-15T02:32:32.512Z"
+  "_updatedAt": "2026-07-15T02:33:10.798Z"
 }
