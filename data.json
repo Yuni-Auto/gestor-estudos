@@ -3,15 +3,15 @@
     "weekStart": "2026-06-28",
     "pomodoro": {
       "area": "aws",
-      "workMin": 25,
+      "workMin": 15,
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
       "phase": "work",
       "isRunning": false,
-      "remainingSeconds": 1500,
+      "remainingSeconds": 900,
       "endAt": null,
-      "cycleCount": 11,
+      "cycleCount": 14,
       "sessionsToday": 0,
       "lastSessionDate": "2026-07-15"
     },
@@ -35,6 +35,10 @@
       "2026-07-12": {
         "count": 2,
         "min": 14
+      },
+      "2026-07-14": {
+        "count": 3,
+        "min": 49
       }
     },
     "pomoTopics": [
@@ -72,6 +76,20 @@
         "date": "2026-07-12",
         "sessions": 2,
         "durationMin": 14
+      },
+      {
+        "id": "1pkacpw",
+        "areaKey": "mba",
+        "date": "2026-07-14",
+        "sessions": 1,
+        "durationMin": 22
+      },
+      {
+        "id": "nwsnxcq",
+        "areaKey": "aws",
+        "date": "2026-07-14",
+        "sessions": 2,
+        "durationMin": 27
       }
     ],
     "areas": {
@@ -149,7 +167,7 @@
           {
             "id": "oq8cdm8",
             "text": "Módulo 2: Economia e faturamento da nuvem",
-            "done": true,
+            "done": false,
             "group": "Cloud Foundations"
           },
           {
@@ -422,7 +440,7 @@
           {
             "id": "z41zn99",
             "text": "Padrões de projetos",
-            "done": false,
+            "done": true,
             "group": "Engenharia de software"
           },
           {
@@ -1061,5 +1079,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-15T13:12:53.762Z"
+  "_updatedAt": "2026-07-15T13:13:13.450Z"
 }
