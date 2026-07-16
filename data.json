@@ -1019,7 +1019,7 @@
         ],
         "groupCollapsed": {
           "Rotina diária": false,
-          "Gramática B2": true,
+          "Gramática B2": false,
           "Vocabulário B2": true,
           "Tópicos B2": true
         }
@@ -1091,5 +1091,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-16T16:47:44.458Z"
+  "_updatedAt": "2026-07-16T16:48:10.904Z"
 }
