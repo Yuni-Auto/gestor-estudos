@@ -2,17 +2,17 @@
   "state": {
     "weekStart": "2026-06-28",
     "pomodoro": {
-      "area": "aws",
-      "workMin": 15,
+      "area": "mba",
+      "workMin": 25,
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
       "phase": "work",
       "isRunning": false,
-      "remainingSeconds": 900,
+      "remainingSeconds": 1500,
       "endAt": null,
-      "cycleCount": 14,
-      "sessionsToday": 0,
+      "cycleCount": 16,
+      "sessionsToday": 2,
       "lastSessionDate": "2026-07-16"
     },
     "pomodoroDays": {
@@ -39,6 +39,10 @@
       "2026-07-14": {
         "count": 3,
         "min": 49
+      },
+      "2026-07-16": {
+        "count": 2,
+        "min": 40
       }
     },
     "pomoTopics": [
@@ -90,6 +94,13 @@
         "date": "2026-07-14",
         "sessions": 2,
         "durationMin": 27
+      },
+      {
+        "id": "5ssei0c",
+        "areaKey": "mba",
+        "date": "2026-07-16",
+        "sessions": 2,
+        "durationMin": 40
       }
     ],
     "areas": {
@@ -1091,5 +1102,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-16T16:48:10.904Z"
+  "_updatedAt": "2026-07-17T00:32:54.290Z"
 }
