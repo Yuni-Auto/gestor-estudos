@@ -3,17 +3,17 @@
     "weekStart": "2026-06-28",
     "pomodoro": {
       "area": "aws",
-      "workMin": 15,
+      "workMin": 25,
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
       "phase": "work",
       "isRunning": false,
-      "remainingSeconds": 900,
+      "remainingSeconds": 1500,
       "endAt": null,
-      "cycleCount": 14,
+      "cycleCount": 20,
       "sessionsToday": 0,
-      "lastSessionDate": "2026-07-19"
+      "lastSessionDate": "2026-07-20"
     },
     "pomodoroDays": {
       "2026-06-28": {
@@ -39,6 +39,10 @@
       "2026-07-14": {
         "count": 3,
         "min": 49
+      },
+      "2026-07-16": {
+        "count": 6,
+        "min": 92
       }
     },
     "pomoTopics": [
@@ -90,6 +94,20 @@
         "date": "2026-07-14",
         "sessions": 2,
         "durationMin": 27
+      },
+      {
+        "id": "5ssei0c",
+        "areaKey": "mba",
+        "date": "2026-07-16",
+        "sessions": 2,
+        "durationMin": 40
+      },
+      {
+        "id": "joji50c",
+        "areaKey": "aws",
+        "date": "2026-07-16",
+        "sessions": 4,
+        "durationMin": 52
       }
     ],
     "areas": {
@@ -609,7 +627,7 @@
         "priority": false,
         "status": "andamento",
         "target": 7.5,
-        "logged": 0.7969999999999999,
+        "logged": 0.9629999999999999,
         "deadline": "",
         "notes": "Plano de estudos B2.",
         "tasks": [
@@ -626,7 +644,9 @@
               "2026-07-07",
               "2026-07-09",
               "2026-07-12",
-              "2026-07-14"
+              "2026-07-14",
+              "2026-07-15",
+              "2026-07-16"
             ]
           },
           {
@@ -1003,11 +1023,21 @@
             "id": "mrag0pg",
             "date": "2026-07-14",
             "hours": 0.083
+          },
+          {
+            "id": "ktmbs4g",
+            "date": "2026-07-15",
+            "hours": 0.083
+          },
+          {
+            "id": "dq9iwhi",
+            "date": "2026-07-16",
+            "hours": 0.083
           }
         ],
         "groupCollapsed": {
           "Rotina diária": false,
-          "Gramática B2": true,
+          "Gramática B2": false,
           "Vocabulário B2": true,
           "Tópicos B2": true
         }
@@ -1079,5 +1109,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-19T22:26:45.861Z"
+  "_updatedAt": "2026-07-20T16:09:25.621Z"
 }
