@@ -3,15 +3,15 @@
     "weekStart": "2026-06-28",
     "pomodoro": {
       "area": "aws",
-      "workMin": 25,
+      "workMin": 15,
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
       "phase": "work",
       "isRunning": false,
-      "remainingSeconds": 1500,
+      "remainingSeconds": 900,
       "endAt": null,
-      "cycleCount": 20,
+      "cycleCount": 14,
       "sessionsToday": 0,
       "lastSessionDate": "2026-07-23"
     },
@@ -39,10 +39,6 @@
       "2026-07-14": {
         "count": 3,
         "min": 49
-      },
-      "2026-07-16": {
-        "count": 6,
-        "min": 92
       }
     },
     "pomoTopics": [
@@ -94,20 +90,6 @@
         "date": "2026-07-14",
         "sessions": 2,
         "durationMin": 27
-      },
-      {
-        "id": "5ssei0c",
-        "areaKey": "mba",
-        "date": "2026-07-16",
-        "sessions": 2,
-        "durationMin": 40
-      },
-      {
-        "id": "joji50c",
-        "areaKey": "aws",
-        "date": "2026-07-16",
-        "sessions": 4,
-        "durationMin": 52
       }
     ],
     "areas": {
@@ -627,7 +609,7 @@
         "priority": false,
         "status": "andamento",
         "target": 7.5,
-        "logged": 1.1289999999999998,
+        "logged": 0.7969999999999999,
         "deadline": "",
         "notes": "Plano de estudos B2.",
         "tasks": [
@@ -644,11 +626,7 @@
               "2026-07-07",
               "2026-07-09",
               "2026-07-12",
-              "2026-07-14",
-              "2026-07-15",
-              "2026-07-16",
-              "2026-07-19",
-              "2026-07-20"
+              "2026-07-14"
             ]
           },
           {
@@ -1025,31 +1003,11 @@
             "id": "mrag0pg",
             "date": "2026-07-14",
             "hours": 0.083
-          },
-          {
-            "id": "ktmbs4g",
-            "date": "2026-07-15",
-            "hours": 0.083
-          },
-          {
-            "id": "dq9iwhi",
-            "date": "2026-07-16",
-            "hours": 0.083
-          },
-          {
-            "id": "dyuaz6l",
-            "date": "2026-07-19",
-            "hours": 0.083
-          },
-          {
-            "id": "ve76usr",
-            "date": "2026-07-20",
-            "hours": 0.083
           }
         ],
         "groupCollapsed": {
           "Rotina diária": false,
-          "Gramática B2": false,
+          "Gramática B2": true,
           "Vocabulário B2": true,
           "Tópicos B2": true
         }
@@ -1121,5 +1079,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-23T14:54:38.070Z"
+  "_updatedAt": "2026-07-23T22:07:15.371Z"
 }
