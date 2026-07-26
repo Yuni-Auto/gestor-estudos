@@ -592,6 +592,12 @@
             "text": "DDD 1",
             "done": false,
             "group": "Engenharia de software"
+          },
+          {
+            "id": "t6u2jim",
+            "text": "Padrões de projetos 2",
+            "done": false,
+            "group": "Engenharia de software"
           }
         ],
         "loggedDays": [],
@@ -1103,5 +1109,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-26T02:54:37.243Z"
+  "_updatedAt": "2026-07-26T05:15:32.864Z"
 }
