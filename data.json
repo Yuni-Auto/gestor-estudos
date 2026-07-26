@@ -598,6 +598,12 @@
             "text": "Padrões de projetos 2",
             "done": false,
             "group": "Engenharia de software"
+          },
+          {
+            "id": "vvsvjb4",
+            "text": "DDD 2",
+            "done": false,
+            "group": "Engenharia de software"
           }
         ],
         "loggedDays": [],
@@ -1109,5 +1115,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-26T05:15:32.864Z"
+  "_updatedAt": "2026-07-26T05:15:52.864Z"
 }
