@@ -608,7 +608,7 @@
           {
             "id": "vpo476i",
             "text": "DDD 1",
-            "done": false,
+            "done": true,
             "group": "Engenharia de software"
           }
         ],
@@ -1139,5 +1139,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-28T22:54:43.023Z"
+  "_updatedAt": "2026-07-28T22:58:28.013Z"
 }
