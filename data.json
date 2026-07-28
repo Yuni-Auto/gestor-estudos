@@ -621,6 +621,12 @@
             "text": "DDD 1",
             "done": true,
             "group": "Engenharia de software"
+          },
+          {
+            "id": "6btw1xu",
+            "text": "DDD 2",
+            "done": false,
+            "group": "Engenharia de software"
           }
         ],
         "loggedDays": [],
@@ -1150,5 +1156,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-28T23:25:50.110Z"
+  "_updatedAt": "2026-07-28T23:44:06.698Z"
 }
