@@ -634,7 +634,7 @@
           "Etapas do TCC": false,
           "Engenharia de software": false,
           "Inglês (aulas)": true,
-          "Palestras pendentes": true
+          "Palestras pendentes": false
         }
       },
       "ingles": {
@@ -1156,5 +1156,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-28T23:44:06.698Z"
+  "_updatedAt": "2026-07-28T23:44:12.302Z"
 }
