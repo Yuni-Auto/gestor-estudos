@@ -7,10 +7,10 @@
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
-      "phase": "break",
-      "isRunning": true,
-      "remainingSeconds": 300,
-      "endAt": 1785281081514,
+      "phase": "work",
+      "isRunning": false,
+      "remainingSeconds": 1500,
+      "endAt": null,
       "cycleCount": 21,
       "sessionsToday": 1,
       "lastSessionDate": "2026-07-28"
@@ -1150,5 +1150,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-28T23:19:44.052Z"
+  "_updatedAt": "2026-07-28T23:24:44.496Z"
 }
