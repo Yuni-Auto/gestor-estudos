@@ -185,13 +185,13 @@
           {
             "id": "oq8cdm8",
             "text": "Módulo 2: Economia e faturamento da nuvem",
-            "done": false,
+            "done": true,
             "group": "Cloud Foundations"
           },
           {
             "id": "5d2tvvd",
             "text": "Módulo 3: Infraestrutura global da AWS",
-            "done": false,
+            "done": true,
             "group": "Cloud Foundations"
           },
           {
@@ -1133,5 +1133,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-07-27T16:42:10.148Z"
+  "_updatedAt": "2026-07-28T02:11:37.383Z"
 }
