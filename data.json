@@ -2,18 +2,18 @@
   "state": {
     "weekStart": "2026-06-28",
     "pomodoro": {
-      "area": "aws",
-      "workMin": 15,
+      "area": "mba",
+      "workMin": 25,
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
       "phase": "work",
       "isRunning": false,
-      "remainingSeconds": 900,
+      "remainingSeconds": 1500,
       "endAt": null,
-      "cycleCount": 14,
+      "cycleCount": 22,
       "sessionsToday": 0,
-      "lastSessionDate": "2026-08-03"
+      "lastSessionDate": "2026-08-04"
     },
     "pomodoroDays": {
       "2026-06-28": {
@@ -39,6 +39,14 @@
       "2026-07-14": {
         "count": 3,
         "min": 49
+      },
+      "2026-07-16": {
+        "count": 6,
+        "min": 92
+      },
+      "2026-07-28": {
+        "count": 2,
+        "min": 50
       }
     },
     "pomoTopics": [
@@ -90,6 +98,27 @@
         "date": "2026-07-14",
         "sessions": 2,
         "durationMin": 27
+      },
+      {
+        "id": "5ssei0c",
+        "areaKey": "mba",
+        "date": "2026-07-16",
+        "sessions": 2,
+        "durationMin": 40
+      },
+      {
+        "id": "joji50c",
+        "areaKey": "aws",
+        "date": "2026-07-16",
+        "sessions": 4,
+        "durationMin": 52
+      },
+      {
+        "id": "hlqwp2z",
+        "areaKey": "mba",
+        "date": "2026-07-28",
+        "sessions": 2,
+        "durationMin": 50
       }
     ],
     "areas": {
@@ -167,13 +196,13 @@
           {
             "id": "oq8cdm8",
             "text": "Módulo 2: Economia e faturamento da nuvem",
-            "done": false,
+            "done": true,
             "group": "Cloud Foundations"
           },
           {
             "id": "5d2tvvd",
             "text": "Módulo 3: Infraestrutura global da AWS",
-            "done": false,
+            "done": true,
             "group": "Cloud Foundations"
           },
           {
@@ -590,17 +619,11 @@
           {
             "id": "vpo476i",
             "text": "DDD 1",
-            "done": false,
+            "done": true,
             "group": "Engenharia de software"
           },
           {
-            "id": "t6u2jim",
-            "text": "Padrões de projetos 2",
-            "done": false,
-            "group": "Engenharia de software"
-          },
-          {
-            "id": "vvsvjb4",
+            "id": "6btw1xu",
             "text": "DDD 2",
             "done": false,
             "group": "Engenharia de software"
@@ -621,7 +644,7 @@
         "priority": false,
         "status": "andamento",
         "target": 7.5,
-        "logged": 1.1289999999999998,
+        "logged": 1.4609999999999996,
         "deadline": "",
         "notes": "Plano de estudos B2.",
         "tasks": [
@@ -639,10 +662,14 @@
               "2026-07-09",
               "2026-07-12",
               "2026-07-14",
-              "2026-07-22",
-              "2026-07-23",
+              "2026-07-15",
+              "2026-07-16",
               "2026-07-19",
-              "2026-07-24"
+              "2026-07-20",
+              "2026-07-26",
+              "2026-07-27",
+              "2026-07-28",
+              "2026-08-02"
             ]
           },
           {
@@ -1021,29 +1048,49 @@
             "hours": 0.083
           },
           {
-            "id": "iel16uj",
-            "date": "2026-07-22",
+            "id": "ktmbs4g",
+            "date": "2026-07-15",
             "hours": 0.083
           },
           {
-            "id": "1e4dldw",
-            "date": "2026-07-23",
+            "id": "dq9iwhi",
+            "date": "2026-07-16",
             "hours": 0.083
           },
           {
-            "id": "4xm9wcv",
+            "id": "dyuaz6l",
             "date": "2026-07-19",
             "hours": 0.083
           },
           {
-            "id": "lp9h23c",
-            "date": "2026-07-24",
+            "id": "ve76usr",
+            "date": "2026-07-20",
+            "hours": 0.083
+          },
+          {
+            "id": "7djbxhs",
+            "date": "2026-07-26",
+            "hours": 0.083
+          },
+          {
+            "id": "v6b1saa",
+            "date": "2026-07-27",
+            "hours": 0.083
+          },
+          {
+            "id": "91cnu03",
+            "date": "2026-07-28",
+            "hours": 0.083
+          },
+          {
+            "id": "ycgn6xe",
+            "date": "2026-08-02",
             "hours": 0.083
           }
         ],
         "groupCollapsed": {
           "Rotina diária": false,
-          "Gramática B2": true,
+          "Gramática B2": false,
           "Vocabulário B2": true,
           "Tópicos B2": true
         }
@@ -1115,5 +1162,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-04T02:04:53.133Z"
+  "_updatedAt": "2026-08-04T21:05:38.841Z"
 }
