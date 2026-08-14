@@ -619,8 +619,8 @@
           },
           {
             "id": "dlerfkm",
-            "text": "Aula Não Visualizada  Avaliação pendente  Event Storming",
-            "done": true,
+            "text": "Event Storming",
+            "done": false,
             "group": "Engenharia de software"
           }
         ],
@@ -1163,5 +1163,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-14T01:58:29.308Z"
+  "_updatedAt": "2026-08-14T01:58:36.944Z"
 }
