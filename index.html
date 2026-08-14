@@ -213,8 +213,25 @@
   .daily-day-cell.future .daily-day-dot{opacity:.4;border-style:dashed;}
   #dailyModalList .task-item{padding:4px 0;}
   .task-del{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:14px;padding:2px 4px;line-height:1;}
+  .task-edit{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:12.5px;padding:2px 4px;line-height:1;}
+  .task-edit:hover{color:var(--accent);}
+  .task-edit-input{
+    flex:1;min-width:0;font-family:var(--font-body);font-size:13.5px;color:var(--ink);
+    border:1px solid var(--accent-line);border-radius:6px;padding:2px 6px;background:var(--surface);
+  }
 
   .lecture-chip-grid{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px;}
+  .lecture-chip-wrap{display:inline-flex;align-items:center;gap:3px;}
+  .lecture-chip-edit{
+    background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:11.5px;
+    padding:3px 4px;line-height:1;flex-shrink:0;
+  }
+  .lecture-chip-edit:hover{color:var(--accent);}
+  .lecture-chip-edit-input{
+    font-family:var(--font-body);font-size:12.5px;color:var(--ink);
+    border:1px solid var(--accent-line);border-radius:999px;padding:6px 10px;
+    background:var(--surface);min-width:90px;
+  }
   .lecture-chip{
     display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;
     border:1px solid var(--border);background:var(--surface);cursor:pointer;
@@ -2109,8 +2126,9 @@ label:'Inglês', emoji:'🗣️', accent:'eng', priority:false,status:'andamento
     const streakBadge = streak > 0 ? '<span class="task-streak" title="Sequência atual">🔥'+streak+'</span>' : '';
     return '<li class="task-item'+(checked?' done':'')+'" data-task="'+t.id+'">'
       + '<input type="checkbox" data-action="toggleTask" '+(checked?'checked':'')+'>'
-      + '<span>'+escapeHTML(t.text)+'</span>'
+      + '<span class="task-text">'+escapeHTML(t.text)+'</span>'
       + streakBadge
+      + '<button class="task-edit" data-action="editTask" aria-label="Editar tarefa">✎</button>'
       + '<button class="task-del" data-action="delTask" aria-label="Remover tarefa">✕</button>'
       + '</li>';
   }
@@ -2143,10 +2161,13 @@ label:'Inglês', emoji:'🗣️', accent:'eng', priority:false,status:'andamento
 
   function lectureChipHTML(t){
     const done = !!t.done;
-    return '<button type="button" class="lecture-chip'+(done?' done':'')+'" data-action="toggleLectureChip" data-task="'+t.id+'">'
-      + '<span class="lecture-chip-check">✓</span>'
-      + '<span class="lecture-chip-text">'+escapeHTML(t.text)+'</span>'
-    + '</button>';
+    return '<span class="lecture-chip-wrap">'
+      + '<button type="button" class="lecture-chip'+(done?' done':'')+'" data-action="toggleLectureChip" data-task="'+t.id+'">'
+        + '<span class="lecture-chip-check">✓</span>'
+        + '<span class="lecture-chip-text">'+escapeHTML(t.text)+'</span>'
+      + '</button>'
+      + '<button type="button" class="lecture-chip-edit" data-action="editLectureChip" data-task="'+t.id+'" aria-label="Editar aula">✎</button>'
+    + '</span>';
   }
 
   function renderTasksBlock(key, a){
@@ -2449,6 +2470,34 @@ label:'Inglês', emoji:'🗣️', accent:'eng', priority:false,status:'andamento
         state.areas[key].tasks = state.areas[key].tasks.filter(t=>t.id!==taskId);
         renderAreas(); save();
       }
+      if(action === 'editTask'){
+        const li = e.target.closest('.task-item');
+        const taskId = li.dataset.task;
+        const task = state.areas[key].tasks.find(t=>t.id===taskId);
+        const span = li.querySelector('.task-text');
+        if(task && span){
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'task-edit-input';
+          input.value = task.text;
+          span.replaceWith(input);
+          input.focus();
+          input.select();
+          let done = false;
+          const commit = ()=>{
+            if(done) return;
+            done = true;
+            const newText = input.value.trim();
+            if(newText) task.text = newText;
+            renderAreas(); save();
+          };
+          input.addEventListener('blur', commit);
+          input.addEventListener('keydown', (ev)=>{
+            if(ev.key === 'Enter'){ ev.preventDefault(); input.blur(); }
+            else if(ev.key === 'Escape'){ done = true; renderAreas(); }
+          });
+        }
+      }
       const dayCell = e.target.closest('.daily-day-cell');
       if(dayCell && card.contains(dayCell) && !dayCell.disabled){
         const date = dayCell.dataset.date;
@@ -2459,6 +2508,37 @@ label:'Inglês', emoji:'🗣️', accent:'eng', priority:false,status:'andamento
         const taskId = lectureChip.dataset.task;
         const task = state.areas[key].tasks.find(t=>t.id===taskId);
         if(task){ task.done = !task.done; renderAreas(); save(); }
+      }
+      if(action === 'editLectureChip'){
+        const wrap = e.target.closest('.lecture-chip-wrap');
+        const taskId = e.target.dataset.task;
+        const task = state.areas[key].tasks.find(t=>t.id===taskId);
+        const btn = wrap ? wrap.querySelector('.lecture-chip') : null;
+        const span = btn ? btn.querySelector('.lecture-chip-text') : null;
+        if(task && span){
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'lecture-chip-edit-input';
+          input.value = task.text;
+          input.addEventListener('click', ev=>ev.stopPropagation());
+          span.replaceWith(input);
+          input.focus();
+          input.select();
+          let doneEditing = false;
+          const commit = ()=>{
+            if(doneEditing) return;
+            doneEditing = true;
+            const newText = input.value.trim();
+            if(newText) task.text = newText;
+            renderAreas(); save();
+          };
+          input.addEventListener('blur', commit);
+          input.addEventListener('keydown', (ev)=>{
+            ev.stopPropagation();
+            if(ev.key === 'Enter'){ ev.preventDefault(); input.blur(); }
+            else if(ev.key === 'Escape'){ doneEditing = true; renderAreas(); }
+          });
+        }
       }
       if(action === 'addTask'){
         const input = card.querySelector('[data-action="newTaskInput"]');
