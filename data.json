@@ -13,7 +13,7 @@
       "endAt": null,
       "cycleCount": 14,
       "sessionsToday": 0,
-      "lastSessionDate": "2026-08-08"
+      "lastSessionDate": "2026-08-13"
     },
     "pomodoroDays": {
       "2026-06-28": {
@@ -1115,5 +1115,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-09T00:50:17.006Z"
+  "_updatedAt": "2026-08-14T01:36:06.372Z"
 }
