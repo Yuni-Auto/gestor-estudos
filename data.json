@@ -398,7 +398,7 @@
           {
             "id": "ya0v19l",
             "text": "Fase 6 • Slides",
-            "done": false,
+            "done": true,
             "group": "Etapas do TCC"
           },
           {
@@ -1163,5 +1163,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-14T01:40:36.795Z"
+  "_updatedAt": "2026-08-14T01:40:47.736Z"
 }
