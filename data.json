@@ -610,6 +610,12 @@
             "text": "Arquitetura limpa 1",
             "done": true,
             "group": "Engenharia de software"
+          },
+          {
+            "id": "k8zvc58",
+            "text": "Arquitetura limpa 2",
+            "done": true,
+            "group": "Engenharia de software"
           }
         ],
         "loggedDays": [],
@@ -1151,5 +1157,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-14T01:37:07.602Z"
+  "_updatedAt": "2026-08-14T01:37:21.430Z"
 }
