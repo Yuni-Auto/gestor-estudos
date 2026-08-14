@@ -584,7 +584,7 @@
           {
             "id": "jjcpiza",
             "text": "Padrões de projetos",
-            "done": true,
+            "done": false,
             "group": "Engenharia de software"
           },
           {
@@ -1163,5 +1163,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-14T01:58:55.900Z"
+  "_updatedAt": "2026-08-14T01:59:01.041Z"
 }
