@@ -604,6 +604,12 @@
             "text": "DDD 2",
             "done": true,
             "group": "Engenharia de software"
+          },
+          {
+            "id": "zqjt00f",
+            "text": "Arquitetura limpa 1",
+            "done": true,
+            "group": "Engenharia de software"
           }
         ],
         "loggedDays": [],
@@ -1145,5 +1151,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-14T01:36:31.553Z"
+  "_updatedAt": "2026-08-14T01:37:07.602Z"
 }
