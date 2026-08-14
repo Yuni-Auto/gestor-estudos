@@ -590,7 +590,7 @@
           {
             "id": "vpo476i",
             "text": "DDD 1",
-            "done": false,
+            "done": true,
             "group": "Engenharia de software"
           },
           {
@@ -602,7 +602,7 @@
           {
             "id": "vvsvjb4",
             "text": "DDD 2",
-            "done": false,
+            "done": true,
             "group": "Engenharia de software"
           }
         ],
@@ -1145,5 +1145,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-14T01:36:24.772Z"
+  "_updatedAt": "2026-08-14T01:36:31.553Z"
 }
