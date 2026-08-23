@@ -628,6 +628,12 @@
             "text": "TDD 1",
             "done": false,
             "group": "Engenharia de software"
+          },
+          {
+            "id": "e4xouuw",
+            "text": "TDD 2",
+            "done": false,
+            "group": "Engenharia de software"
           }
         ],
         "loggedDays": [],
@@ -1169,5 +1175,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-23T00:37:41.312Z"
+  "_updatedAt": "2026-08-23T00:37:47.994Z"
 }
