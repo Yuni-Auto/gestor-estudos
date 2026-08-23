@@ -614,7 +614,7 @@
           {
             "id": "k8zvc58",
             "text": "Arquitetura limpa 2",
-            "done": true,
+            "done": false,
             "group": "Engenharia de software"
           },
           {
@@ -1175,5 +1175,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-23T00:37:47.994Z"
+  "_updatedAt": "2026-08-23T00:37:57.251Z"
 }
