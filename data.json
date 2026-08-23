@@ -602,7 +602,7 @@
           {
             "id": "vvsvjb4",
             "text": "DDD 2",
-            "done": true,
+            "done": false,
             "group": "Engenharia de software"
           },
           {
@@ -1163,5 +1163,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-23T00:33:31.825Z"
+  "_updatedAt": "2026-08-23T00:37:26.407Z"
 }
