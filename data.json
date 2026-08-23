@@ -109,7 +109,7 @@
         "emoji": "☁️",
         "accent": "aws",
         "priority": true,
-        "status": "andamento",
+        "status": "pausado",
         "target": 2.5,
         "logged": 2,
         "deadline": "2026-08-01",
@@ -1204,5 +1204,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-23T03:07:04.491Z"
+  "_updatedAt": "2026-08-23T03:11:12.001Z"
 }
