@@ -622,6 +622,12 @@
             "text": "Event Storming",
             "done": false,
             "group": "Engenharia de software"
+          },
+          {
+            "id": "esyazwq",
+            "text": "TDD 1",
+            "done": false,
+            "group": "Engenharia de software"
           }
         ],
         "loggedDays": [],
@@ -1163,5 +1169,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-23T00:37:26.407Z"
+  "_updatedAt": "2026-08-23T00:37:41.312Z"
 }
