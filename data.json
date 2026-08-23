@@ -7,13 +7,13 @@
       "breakMin": 5,
       "longBreakMin": 15,
       "cyclesUntilLong": 2,
-      "phase": "longBreak",
-      "isRunning": true,
+      "phase": "work",
+      "isRunning": false,
       "remainingSeconds": 900,
-      "endAt": 1787454404185,
+      "endAt": null,
       "cycleCount": 16,
-      "sessionsToday": 2,
-      "lastSessionDate": "2026-08-22"
+      "sessionsToday": 0,
+      "lastSessionDate": "2026-08-23"
     },
     "pomodoroDays": {
       "2026-06-28": {
@@ -1204,5 +1204,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-23T02:51:46.746Z"
+  "_updatedAt": "2026-08-23T03:06:47.754Z"
 }
