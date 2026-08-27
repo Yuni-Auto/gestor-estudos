@@ -605,8 +605,8 @@
           },
           {
             "id": "jjcpiza",
-            "text": "Padrões de projetos 1",
-            "done": true,
+            "text": "Design Patterns",
+            "done": false,
             "group": "Engenharia de software"
           },
           {
@@ -1227,5 +1227,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-27T22:32:13.557Z"
+  "_updatedAt": "2026-08-27T22:32:25.296Z"
 }
