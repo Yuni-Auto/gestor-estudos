@@ -661,7 +661,7 @@
         "loggedDays": [],
         "groupCollapsed": {
           "Etapas do TCC": false,
-          "Engenharia de software": true,
+          "Engenharia de software": false,
           "Inglês (aulas)": true,
           "Palestras pendentes": true
         }
@@ -1227,5 +1227,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-27T22:34:16.256Z"
+  "_updatedAt": "2026-08-27T22:34:42.466Z"
 }
