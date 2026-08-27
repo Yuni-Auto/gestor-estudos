@@ -605,8 +605,8 @@
           },
           {
             "id": "jjcpiza",
-            "text": "Design Patterns",
-            "done": true,
+            "text": "Design Patterns 1",
+            "done": false,
             "group": "Engenharia de software"
           },
           {
@@ -1227,5 +1227,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-27T22:32:37.557Z"
+  "_updatedAt": "2026-08-27T22:32:49.870Z"
 }
