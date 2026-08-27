@@ -617,7 +617,7 @@
           },
           {
             "id": "t6u2jim",
-            "text": "Padrões de projetos 2",
+            "text": "Design Patterns 2",
             "done": false,
             "group": "Engenharia de software"
           },
@@ -1227,5 +1227,5 @@
       }
     ]
   },
-  "_updatedAt": "2026-08-27T22:32:52.557Z"
+  "_updatedAt": "2026-08-27T22:33:03.302Z"
 }
